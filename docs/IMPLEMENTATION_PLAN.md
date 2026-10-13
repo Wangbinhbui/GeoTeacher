@@ -1,12 +1,12 @@
 # Kế hoạch triển khai GeoTeacher MVP
 
-> Hiện trạng 2026-10-13: **Foundation đang triển khai.** Backend/frontend, database migration, Docker Compose và lát cắt authentication đầu tiên đã có; M02–M05 chưa triển khai.
+> Hiện trạng 2026-10-13: **Foundation và School year/Class đã chạy local.** Docker/WSL, authentication và lát cắt đầu M02 đã có; Student/Enrollment và M03–M05 chưa triển khai.
 
 ## 0. Nguyên tắc kế hoạch
 
 - Đi theo vertical slice nhỏ có thể chạy/test, nhưng dependency nền phải xong trước.
 - Mỗi milestone có migration, backend, frontend và test cần thiết; không để validation chỉ ở UI.
-- Không làm OMR/OCR/AI/M06/M07 trong MVP.
+- Không chen OMR/OCR/AI vào luồng lõi M01–M05; AI tạo đề bám tài liệu là phase mở rộng đã xác nhận và chỉ bắt đầu sau nền question/exam/document.
 - Trước mỗi phase, chốt các `OPEN` liên quan trong `DECISIONS.md`.
 
 ## Phase 0 — Chốt thiết kế và bootstrap
@@ -38,8 +38,9 @@
 
 ### Slice 2: School year/class
 
-- [ ] Migration + CRUD năm học/lớp + archive.
-- [ ] UI danh sách/form, validation trùng và optimistic conflict.
+- [x] Migration + CRUD năm học/lớp + archive.
+- [x] UI danh sách/form, validation trùng và optimistic conflict.
+- [x] Chốt phạm vi mã lớp: unique trong một năm học, được lặp ở năm khác.
 
 ### Slice 3: Student/enrollment
 
@@ -143,8 +144,19 @@
 
 - `DEFERRED` M06 Teaching Documents.
 - `DEFERRED` M07 Geography Tools.
-- `DEFERRED` OMR/OCR, mobile capture, AI assistant/chấm essay.
+- `CONFIRMED` Phase AI: upload/index PDF-DOCX có text; tạo đề draft 15/45/60 phút bám tài liệu, có trích nguồn và giáo viên duyệt.
+- `DEFERRED` OMR/OCR, mobile capture và AI chấm essay.
 - `DEFERRED` Analytics nâng cao và object storage production.
+
+## Phase AI — Document-grounded exam drafting
+
+1. Chốt O-016–O-019 và đánh giá quyền riêng tư/chi phí/chất lượng tiếng Việt.
+2. Xây `document` + `file` ingestion: upload an toàn, parse, chia đoạn, checksum, trạng thái và báo trang lỗi.
+3. Xây retrieval có scope theo tài liệu/lớp/khối và trả citation tới đoạn/trang nguồn.
+4. Xây preset 15/45/60 phút thành cấu hình có thể chỉnh, ánh xạ sang ma trận đề.
+5. Model chỉ trả structured draft; backend validate loại câu, đáp án, rubric, điểm và tổng thời lượng trước khi lưu.
+6. UI review hiển thị nguồn, cảnh báo phần không có căn cứ, cho sửa/chấp nhận từng câu; chỉ giáo viên mới finalize.
+7. Eval bằng bộ giáo trình đại diện: groundedness, độ phủ ma trận, độ khó, tiếng Việt, duplicate và rò rỉ đáp án.
 
 ## Nên bắt đầu code từ đâu?
 

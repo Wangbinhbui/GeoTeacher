@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { LoaderCircle } from 'lucide-react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoginPage } from './features/auth/LoginPage'
+import { ClassroomPage } from './features/classroom/ClassroomPage'
 import { DashboardPage } from './features/dashboard/DashboardPage'
 import { getSession, type Session } from './lib/api'
 import { sessionQueryKey } from './lib/auth-queries'
@@ -36,6 +37,16 @@ function App() {
         element={
           session.authenticated ? (
             <DashboardPage session={session} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route
+        path="/classrooms"
+        element={
+          session.authenticated ? (
+            <ClassroomPage session={session} />
           ) : (
             <Navigate to="/login" replace />
           )

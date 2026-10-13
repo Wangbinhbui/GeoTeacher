@@ -52,7 +52,13 @@ async function getCsrfToken(): Promise<CsrfToken> {
   return response.json() as Promise<CsrfToken>
 }
 
-async function mutate<T>(path: string, method: string, body?: unknown): Promise<T> {
+export async function apiGet<T>(path: string): Promise<T> {
+  const response = await fetch(path, { credentials: 'include' })
+  if (!response.ok) return parseError(response)
+  return response.json() as Promise<T>
+}
+
+export async function apiMutate<T>(path: string, method: string, body?: unknown): Promise<T> {
   const csrf = await getCsrfToken()
   const response = await fetch(path, {
     method,
@@ -69,9 +75,9 @@ async function mutate<T>(path: string, method: string, body?: unknown): Promise<
 }
 
 export function login(username: string, password: string) {
-  return mutate<Session>('/api/v1/auth/login', 'POST', { username, password })
+  return apiMutate<Session>('/api/v1/auth/login', 'POST', { username, password })
 }
 
 export function logout() {
-  return mutate<void>('/api/v1/auth/logout', 'POST')
+  return apiMutate<void>('/api/v1/auth/logout', 'POST')
 }

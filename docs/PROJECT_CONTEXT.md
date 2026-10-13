@@ -16,6 +16,13 @@
 - M05: đợt kiểm tra, nhập đáp án/điểm thủ công, chấm khách quan, chấm tự luận thủ công, chốt/điều chỉnh điểm có lịch sử, export Excel.
 - Học sinh làm bài trên giấy. Giáo viên là người duyệt kết quả cuối cùng.
 
+## 2.1. Phạm vi AI đã xác nhận cho giai đoạn mở rộng
+
+- Tạo bản nháp đề kiểm tra theo preset thời lượng 15, 45 hoặc 60 phút.
+- Đọc tài liệu/giáo trình do giáo viên tải lên và dùng nội dung truy xuất được làm nguồn tạo câu hỏi/đề.
+- Mỗi nội dung AI đề xuất phải cho phép truy vết nguồn và luôn qua bước giáo viên duyệt trước khi đưa vào ngân hàng hoặc finalize đề.
+- Nhà cung cấp AI, retention/quyền riêng tư, preset ma trận chi tiết và OCR tài liệu scan vẫn là `OPEN`.
+
 ## 3. Ngoài phạm vi MVP
 
 `CONFIRMED`
@@ -27,7 +34,7 @@
 `DEFERRED`
 
 - M06 giáo án/tài liệu; M07 công cụ Địa lý.
-- OMR/OpenCV, OCR và AI tạo câu hỏi/chấm tự luận.
+- OMR/OpenCV, OCR và AI chấm tự luận. AI tạo đề bám tài liệu đã được xác nhận nhưng triển khai sau nền question/exam/document.
 - Phân tích học tập nâng cao.
 
 ## 4. Nguyên tắc bất biến nghiệp vụ
@@ -47,8 +54,9 @@
 - Bộ tài liệu phân tích/thiết kế được duy trì cùng source code.
 - Foundation đã có Spring Boot/PostgreSQL/Flyway, React/TypeScript/Tailwind và Docker Compose.
 - Lát cắt M01 đầu tiên đã có bootstrap tài khoản, đăng nhập/đăng xuất bằng session + CSRF và đổi mật khẩu; cơ chế khôi phục mật khẩu vẫn `OPEN`.
-- Dashboard hiện là khung điều hướng; các số liệu/module M02–M05 chưa được triển khai.
-- Bước code kế tiếp: chốt các câu hỏi P0 còn liên quan và triển khai School year/Class → Student/Enrollment.
+- Dashboard đã nối tới màn hình quản lý năm học/lớp; M02 School year/Class có migration, API, UI, archive và optimistic conflict.
+- Bước code kế tiếp: chốt O-002/O-003/O-004 và triển khai Student/Enrollment/import-export.
+- AI tạo đề bám tài liệu đã vào roadmap mở rộng, chưa chen ngang dependency M02–M04.
 
 ## 6. Tiêu chí thành công MVP
 

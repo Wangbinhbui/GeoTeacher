@@ -20,6 +20,7 @@
 - `CONFIRMED` Import/export Excel và xem lịch sử kiểm tra/kết quả theo lớp.
 - `OPEN` Định nghĩa mã học sinh duy nhất toàn hệ thống hay chỉ theo năm học/trường.
 - `OPEN` Một học sinh có thể đồng thời thuộc nhiều lớp trong cùng năm học hay không.
+- `CONFIRMED` Mã lớp không được trùng trong cùng một năm học; được phép dùng lại ở năm học khác.
 
 ### FR-QST — Ngân hàng câu hỏi
 
@@ -53,6 +54,14 @@
 - `CONFIRMED` Export kết quả/bảng điểm Excel.
 - `OPEN` Chính sách bài vắng, miễn kiểm tra, làm lại và bài thay thế.
 - `OPEN` Cho phép nhập thẳng tổng điểm trong trường hợp nào và mức audit/giải trình bắt buộc.
+
+### FR-AI — Tạo đề bám tài liệu
+
+- `CONFIRMED` Giáo viên có thể yêu cầu AI tạo bản nháp đề theo thời lượng 15, 45 hoặc 60 phút.
+- `CONFIRMED` Giáo viên có thể tải tài liệu/giáo trình để AI dùng làm nguồn kiến thức khi tạo câu hỏi và đề.
+- `CONFIRMED` AI chỉ đề xuất draft; giáo viên phải xem, sửa và duyệt trước khi đưa vào ngân hàng câu hỏi hoặc finalize đề.
+- `CONFIRMED` Nội dung sinh từ tài liệu phải có liên kết nguồn đủ để giáo viên kiểm chứng; không được âm thầm dùng kiến thức ngoài nguồn khi chế độ “chỉ theo giáo trình” được chọn.
+- `OPEN` Nhà cung cấp/model, chính sách gửi dữ liệu/retention, preset ma trận cho từng thời lượng và định dạng tài liệu đầu tiên.
 
 ## 3. Yêu cầu phi chức năng
 

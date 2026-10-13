@@ -18,6 +18,7 @@ import { Button } from '../../components/ui/button'
 import { Card } from '../../components/ui/card'
 import { logout, type Session } from '../../lib/api'
 import { sessionQueryKey } from '../../lib/auth-queries'
+import { useNavigate } from 'react-router-dom'
 
 const navigation = [
   { label: 'Tổng quan', icon: LayoutDashboard, active: true },
@@ -39,6 +40,7 @@ const overviewCards = [
 ]
 
 export function DashboardPage({ session }: { session: Session }) {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const logoutMutation = useMutation({
     mutationFn: logout,
@@ -61,7 +63,8 @@ export function DashboardPage({ session }: { session: Session }) {
             <button
               key={item.label}
               type="button"
-              disabled={!item.active}
+              disabled={!item.active && item.label !== 'Lớp học'}
+              onClick={() => item.label === 'Lớp học' && navigate('/classrooms')}
               className={`flex h-11 w-full items-center gap-3 rounded-xl px-3 text-left text-sm font-medium transition ${
                 item.active
                   ? 'bg-emerald-50 text-emerald-900'
