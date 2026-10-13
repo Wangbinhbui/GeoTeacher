@@ -136,7 +136,8 @@ Giữ resource-oriented API và tách command có state transition:
 ### Classroom/question
 
 - `/api/v1/school-years`, `/class-groups`, `/students`, `/class-enrollments`
-- `/api/v1/questions` và `/questions/{id}/copy`, `/questions/import-jobs`
+- `/api/v1/student-excel/template|preview|confirm|export` cho roster Excel; preview không ghi dữ liệu, confirm gọi lại cùng validator trong một transaction.
+- `/api/v1/questions` hiện có CRUD/search/archive và detail cho `SINGLE_CHOICE`; `/questions/{id}/copy`, import và ba loại còn lại sẽ bổ sung ở các lát cắt sau.
 
 ### Exam
 

@@ -52,6 +52,18 @@ async function getCsrfToken(): Promise<CsrfToken> {
   return response.json() as Promise<CsrfToken>
 }
 
+export async function apiUpload<T>(path: string, formData: FormData): Promise<T> {
+  const csrf = await getCsrfToken()
+  const response = await fetch(path, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { [csrf.headerName]: csrf.token },
+    body: formData,
+  })
+  if (!response.ok) return parseError(response)
+  return response.json() as Promise<T>
+}
+
 export async function apiGet<T>(path: string): Promise<T> {
   const response = await fetch(path, { credentials: 'include' })
   if (!response.ok) return parseError(response)

@@ -1,6 +1,6 @@
 # Kế hoạch triển khai GeoTeacher MVP
 
-> Hiện trạng 2026-10-13: **Foundation và Student/Enrollment đã chạy local.** Docker/WSL, authentication, School year/Class và CRUD/search/enrollment M02 đã có; import/export M02 và M03–M05 chưa triển khai.
+> Hiện trạng 2026-10-13: **M02 đã chạy local và M03 đã bắt đầu.** Authentication, quản lý lớp/học sinh, import/export roster và question bank `SINGLE_CHOICE` đã có; ba loại câu hỏi còn lại và M04–M05 chưa triển khai.
 
 ## 0. Nguyên tắc kế hoạch
 
@@ -46,7 +46,7 @@
 
 - [x] CRUD student, enrollment, rời lớp và tìm kiếm.
 - [x] Chốt O-002/O-003; unique constraint và domain/service test.
-- [ ] Import preview/confirm Excel và export; O-004 đã chốt all-or-nothing.
+- [x] Import preview/confirm Excel, file mẫu và export roster; O-004 dùng all-or-nothing.
 
 **Exit:** giáo viên quản lý được roster nhiều năm học mà dữ liệu cũ không mất.
 
@@ -59,7 +59,7 @@
 
 ### 2.2. Bốn loại câu hỏi
 
-- [ ] Base question + single choice.
+- [x] Base question + single choice: CRUD/search/archive, optimistic conflict và danh sách không lộ đáp án.
 - [ ] True/false + bảng quy đổi; chốt O-006.
 - [ ] Short answer normalization/tolerance/unit; chốt O-007 và viết test bảng biên.
 - [ ] Essay rubric/manual grading model.

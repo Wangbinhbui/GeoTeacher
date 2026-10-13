@@ -1,4 +1,4 @@
-import { apiGet, apiMutate } from '../../lib/api'
+import { apiGet, apiMutate, apiUpload } from '../../lib/api'
 
 export type StudentStatus = 'ACTIVE' | 'ARCHIVED'
 export type EnrollmentStatus = 'ACTIVE' | 'LEFT'
@@ -30,6 +30,28 @@ export type Enrollment = {
 export type StudentInput = Pick<Student, 'studentCode' | 'fullName'> & {
   dateOfBirth?: string
   version?: number
+}
+
+export type StudentImportRow = {
+  rowNumber: number
+  studentCode: string
+  fullName: string
+  dateOfBirth?: string
+  action: 'CREATE_STUDENT_AND_ENROLL' | 'ENROLL_EXISTING' | 'INVALID'
+  errors: string[]
+}
+
+export type StudentImportPreview = {
+  valid: boolean
+  totalRows: number
+  newStudents: number
+  existingStudents: number
+  rows: StudentImportRow[]
+}
+
+export type StudentImportResult = {
+  createdStudents: number
+  enrolledStudents: number
 }
 
 export const studentsQueryKey = ['students'] as const
@@ -71,4 +93,25 @@ export function leaveEnrollment(enrollment: Enrollment, leftAt: string) {
     leftAt,
     version: enrollment.version,
   })
+}
+
+function studentImportForm(file: File) {
+  const form = new FormData()
+  form.append('file', file)
+  return form
+}
+
+export function previewStudentImport(classGroupId: string, file: File) {
+  return apiUpload<StudentImportPreview>(
+    `/api/v1/student-excel/preview?classGroupId=${encodeURIComponent(classGroupId)}`,
+    studentImportForm(file),
+  )
+}
+
+export function confirmStudentImport(classGroupId: string, enrolledAt: string, file: File) {
+  const query = new URLSearchParams({ classGroupId, enrolledAt })
+  return apiUpload<StudentImportResult>(
+    `/api/v1/student-excel/confirm?${query.toString()}`,
+    studentImportForm(file),
+  )
 }

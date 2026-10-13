@@ -100,7 +100,7 @@ erDiagram
 #### `students`
 
 - `id`, `student_code`, `full_name`, `date_of_birth`, `gender` nullable, `status`, contact fields tối thiểu.
-- Quy tắc UNIQUE cho `student_code` là `OPEN`; khuyến nghị unique toàn hệ thống vì một người đi qua nhiều năm học.
+- `CONFIRMED` `student_code` unique toàn hệ thống; migration V4 lưu thêm giá trị normalized để chặn trùng không phân biệt hoa/thường.
 - Index normalized name cho tìm kiếm; cân nhắc `pg_trgm` sau khi đo nhu cầu.
 
 #### `class_enrollments`
@@ -118,6 +118,8 @@ erDiagram
 - `storage_key` do server tạo, không tin tên upload. File đang được snapshot tham chiếu chỉ được mark `RETAINED/ARCHIVED`, không xóa vật lý.
 
 ### 4.4. Question bank
+
+> Hiện trạng triển khai: migration V5/V6 đã tạo `questions` và `question_options` cho lát cắt `SINGLE_CHOICE`. Các bảng taxonomy, grading config, item/rubric và attachment bên dưới vẫn là thiết kế mục tiêu `PROPOSED`.
 
 #### `topics`
 

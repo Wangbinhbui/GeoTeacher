@@ -64,10 +64,11 @@ export function DashboardPage({ session }: { session: Session }) {
             <button
               key={item.label}
               type="button"
-              disabled={!item.active && item.label !== 'Lớp học' && item.label !== 'Học sinh'}
+              disabled={!item.active && item.label !== 'Lớp học' && item.label !== 'Học sinh' && item.label !== 'Ngân hàng câu hỏi'}
               onClick={() => {
                 if (item.label === 'Lớp học') navigate('/classrooms')
                 if (item.label === 'Học sinh') navigate('/students')
+                if (item.label === 'Ngân hàng câu hỏi') navigate('/questions')
               }}
               className={`flex h-11 w-full items-center gap-3 rounded-xl px-3 text-left text-sm font-medium transition ${
                 item.active

@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Archive, ArrowLeft, LoaderCircle, Pencil, Search, UserPlus, UsersRound } from 'lucide-react'
+import { Archive, ArrowLeft, Download, FileSpreadsheet, LoaderCircle, Pencil, Search, Upload, UserPlus, UsersRound } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
@@ -12,15 +12,18 @@ import { listClassGroups, type ClassGroup } from '../classroom/classroom-api'
 import { ApiError, type Session } from '../../lib/api'
 import {
   archiveStudent,
+  confirmStudentImport,
   enrollmentsQueryKey,
   enrollStudent,
   leaveEnrollment,
   listClassEnrollments,
+  previewStudentImport,
   saveStudent,
   searchStudents,
   studentsQueryKey,
   type Enrollment,
   type Student,
+  type StudentImportPreview,
 } from './student-api'
 
 const studentSchema = z.object({
@@ -46,6 +49,9 @@ export function StudentPage({ session }: { session: Session }) {
   const [selectedStudent, setSelectedStudent] = useState<Student>()
   const [selectedClassId, setSelectedClassId] = useState('')
   const [enrolledAt, setEnrolledAt] = useState(today())
+  const [importFile, setImportFile] = useState<File>()
+  const [importPreview, setImportPreview] = useState<StudentImportPreview>()
+  const [importMessage, setImportMessage] = useState('')
 
   const studentsQuery = useQuery({
     queryKey: [...studentsQueryKey, query],
@@ -97,6 +103,29 @@ export function StudentPage({ session }: { session: Session }) {
   const leaveMutation = useMutation({
     mutationFn: (enrollment: Enrollment) => leaveEnrollment(enrollment, today()),
     onSuccess: refreshRoster,
+  })
+  const previewMutation = useMutation({
+    mutationFn: () => {
+      if (!importFile || !effectiveClassId) throw new Error('Chưa chọn file hoặc lớp.')
+      return previewStudentImport(effectiveClassId, importFile)
+    },
+    onSuccess: (preview) => {
+      setImportPreview(preview)
+      setImportMessage('')
+    },
+  })
+  const confirmImportMutation = useMutation({
+    mutationFn: () => {
+      if (!importFile || !effectiveClassId) throw new Error('Chưa chọn file hoặc lớp.')
+      return confirmStudentImport(effectiveClassId, enrolledAt, importFile)
+    },
+    onSuccess: (result) => {
+      setImportMessage(`Đã tạo ${result.createdStudents} hồ sơ và ghi danh ${result.enrolledStudents} học sinh.`)
+      setImportPreview(undefined)
+      setImportFile(undefined)
+      refreshStudents()
+      refreshRoster()
+    },
   })
 
   function editStudent(student: Student) {
@@ -152,9 +181,35 @@ export function StudentPage({ session }: { session: Session }) {
             {enrollMutation.error && <p className="mt-3 text-sm text-red-600">{errorMessage(enrollMutation.error)}</p>}
             <Button className="mt-4 w-full" disabled={!selectedStudent || !effectiveClassId || enrollMutation.isPending} onClick={() => enrollMutation.mutate()}><UserPlus className="size-4" /> Ghi danh</Button>
           </Card>
+
+          <Card className="p-5">
+            <div className="flex items-center gap-3"><FileSpreadsheet className="size-5 text-emerald-700" /><h2 className="font-semibold">Import / export Excel</h2></div>
+            <p className="mt-2 text-xs leading-5 text-stone-500">Import vào lớp đang chọn. Hệ thống chỉ lưu khi tất cả dòng đều hợp lệ.</p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <Button asChild variant="outline" size="sm"><a href="/api/v1/student-excel/template"><Download className="size-4" /> File mẫu</a></Button>
+              <Button asChild variant="outline" size="sm"><a href={effectiveClassId ? `/api/v1/student-excel/export?classGroupId=${encodeURIComponent(effectiveClassId)}` : '#'}><Download className="size-4" /> Xuất lớp</a></Button>
+            </div>
+            <label className="mt-4 block text-sm font-medium">File .xlsx
+              <Input className="mt-2" type="file" accept=".xlsx" onChange={(event) => { setImportFile(event.target.files?.[0]); setImportPreview(undefined); setImportMessage('') }} />
+            </label>
+            {(previewMutation.error || confirmImportMutation.error) && <p className="mt-3 text-sm text-red-600">{errorMessage(previewMutation.error ?? confirmImportMutation.error)}</p>}
+            {importMessage && <p className="mt-3 text-sm font-medium text-emerald-700">{importMessage}</p>}
+            <Button className="mt-4 w-full" variant="outline" disabled={!importFile || !effectiveClassId || previewMutation.isPending} onClick={() => previewMutation.mutate()}>{previewMutation.isPending ? <LoaderCircle className="size-4 animate-spin" /> : <Upload className="size-4" />} Preview import</Button>
+          </Card>
         </section>
 
         <section className="space-y-6">
+          {importPreview && <Card className="overflow-hidden">
+            <div className="flex flex-col gap-3 border-b border-stone-100 p-5 sm:flex-row sm:items-center sm:justify-between">
+              <div><h2 className="font-semibold">Kết quả preview</h2><p className="mt-1 text-sm text-stone-500">{importPreview.totalRows} dòng · {importPreview.newStudents} hồ sơ mới · {importPreview.existingStudents} hồ sơ đã có</p></div>
+              <Button disabled={!importPreview.valid || confirmImportMutation.isPending} onClick={() => confirmImportMutation.mutate()}>{confirmImportMutation.isPending && <LoaderCircle className="size-4 animate-spin" />} Xác nhận import</Button>
+            </div>
+            <div className="max-h-80 overflow-auto divide-y divide-stone-100">
+              {importPreview.rows.map((row) => <div key={row.rowNumber} className="grid gap-1 p-4 text-sm sm:grid-cols-[60px_110px_1fr]">
+                <span className="text-stone-400">Dòng {row.rowNumber}</span><span className="font-medium">{row.studentCode || '—'}</span><div><p>{row.fullName || '—'}</p>{row.errors.length ? <p className="mt-1 text-xs text-red-600">{row.errors.join(' ')}</p> : <p className="mt-1 text-xs text-emerald-700">{row.action === 'ENROLL_EXISTING' ? 'Ghi danh hồ sơ đã có' : 'Tạo hồ sơ và ghi danh'}</p>}</div>
+              </div>)}
+            </div>
+          </Card>}
           <Card className="overflow-hidden">
             <div className="border-b border-stone-100 p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

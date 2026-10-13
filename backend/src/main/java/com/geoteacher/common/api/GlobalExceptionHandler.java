@@ -3,6 +3,7 @@ package com.geoteacher.common.api;
 import com.geoteacher.auth.application.AccountException;
 import com.geoteacher.classroom.application.ClassroomErrorType;
 import com.geoteacher.classroom.application.ClassroomException;
+import com.geoteacher.question.application.QuestionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -42,6 +43,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ClassroomException.class)
     ResponseEntity<ApiErrorResponse> handleClassroom(ClassroomException exception) {
+        var status = switch (exception.getType()) {
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case CONFLICT -> HttpStatus.CONFLICT;
+            case INVALID_STATE -> HttpStatus.BAD_REQUEST;
+        };
+        return error(status, exception.getCode(), exception.getMessage(), Map.of());
+    }
+
+    @ExceptionHandler(QuestionException.class)
+    ResponseEntity<ApiErrorResponse> handleQuestion(QuestionException exception) {
         var status = switch (exception.getType()) {
             case NOT_FOUND -> HttpStatus.NOT_FOUND;
             case CONFLICT -> HttpStatus.CONFLICT;

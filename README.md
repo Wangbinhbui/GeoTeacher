@@ -12,9 +12,11 @@ Source hiện tại cung cấp:
 - Màn hình đăng nhập, dashboard, quản lý năm học/lớp và học sinh/xếp lớp bằng các UI primitive theo hướng shadcn/ui.
 - CRUD/archive năm học và lớp, optimistic conflict, mã lớp duy nhất trong từng năm học và được lặp ở năm khác.
 - CRUD/archive/tìm kiếm học sinh; mã học sinh duy nhất toàn hệ thống; ghi danh nhiều lớp, rời lớp có lưu lịch sử.
+- Import học sinh Excel có file mẫu, preview từng dòng, confirm all-or-nothing và export roster theo lớp.
+- Ngân hàng câu hỏi bước đầu hỗ trợ CRUD/search/archive câu trắc nghiệm một đáp án, metadata khối/chủ đề/mức độ và không lộ đáp án ở API danh sách.
 - Docker Compose cho PostgreSQL, backend và frontend.
 
-Import/export roster, ngân hàng câu hỏi, đề và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Roadmap mở rộng đã ghi nhận AI tạo đề 15/45/60 phút bám tài liệu giáo viên tải lên, có trích nguồn và bước giáo viên duyệt.
+Các loại câu hỏi còn lại, đề và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Upload PDF/DOCX và AI tạo đề 15/45/60 phút bám tài liệu đã có trong roadmap nhưng chưa bật trong ứng dụng vì provider, retention/quyền riêng tư và OCR vẫn cần chốt.
 
 ## Chạy bằng Docker Compose
 
