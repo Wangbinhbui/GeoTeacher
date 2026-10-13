@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-geoteacher}
+      POSTGRES_USER: ${POSTGRES_USER:-geoteacher}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports:
+      - "5432:5432"
+    volumes:
+      - geoteacher_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-geoteacher}
+      DB_USERNAME: ${POSTGRES_USER:-geoteacher}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      GEOTEACHER_BOOTSTRAP_ADMIN_USERNAME: ${GEOTEACHER_BOOTSTRAP_ADMIN_USERNAME:-teacher}
+      GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD: ${GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD:?Set GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD in .env}
+      GEOTEACHER_BOOTSTRAP_ADMIN_DISPLAY_NAME: ${GEOTEACHER_BOOTSTRAP_ADMIN_DISPLAY_NAME:-Giáo viên Địa lý}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  geoteacher_postgres:

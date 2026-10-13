@@ -1,0 +1,49 @@
+import { useQuery } from '@tanstack/react-query'
+import { LoaderCircle } from 'lucide-react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { LoginPage } from './features/auth/LoginPage'
+import { DashboardPage } from './features/dashboard/DashboardPage'
+import { getSession, type Session } from './lib/api'
+import { sessionQueryKey } from './lib/auth-queries'
+
+function App() {
+  const sessionQuery = useQuery({
+    queryKey: sessionQueryKey,
+    queryFn: getSession,
+  })
+
+  if (sessionQuery.isPending) {
+    return (
+      <main className="grid min-h-screen place-items-center bg-stone-50 text-emerald-800">
+        <div className="flex items-center gap-3 text-sm font-medium">
+          <LoaderCircle className="size-5 animate-spin" />
+          Đang khởi động GeoTeacher…
+        </div>
+      </main>
+    )
+  }
+
+  const session: Session = sessionQuery.data ?? { authenticated: false }
+
+  return (
+    <Routes>
+      <Route
+        path="/login"
+        element={session.authenticated ? <Navigate to="/" replace /> : <LoginPage />}
+      />
+      <Route
+        path="/"
+        element={
+          session.authenticated ? (
+            <DashboardPage session={session} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  )
+}
+
+export default App

@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: geoteacher-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/geoteacher}
+    username: ${DB_USERNAME:geoteacher}
+    password: ${DB_PASSWORD:geoteacher}
+  flyway:
+    enabled: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  session:
+    timeout: 8h
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        same-site: lax
+        secure: ${SESSION_COOKIE_SECURE:false}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+geoteacher:
+  bootstrap-admin:
+    username: ${GEOTEACHER_BOOTSTRAP_ADMIN_USERNAME:teacher}
+    password: ${GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD:}
+    display-name: ${GEOTEACHER_BOOTSTRAP_ADMIN_DISPLAY_NAME:Giáo viên Địa lý}
