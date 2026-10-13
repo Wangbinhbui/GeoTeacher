@@ -15,6 +15,9 @@
 | D-009 | CONFIRMED | Điểm đã chốt điều chỉnh có audit; không xóa cứng kết quả. | Truy vết và integrity. |
 | D-021 | CONFIRMED (2026-10-13) | `class_code` chỉ duy nhất trong một năm học; cùng mã được phép dùng lại ở năm học khác. | Phản ánh cách đặt tên lớp lặp lại qua từng khóa và vẫn chặn nhầm lẫn trong cùng năm. |
 | D-022 | CONFIRMED (2026-10-13) | AI hỗ trợ tạo đề theo thời lượng 15, 45 hoặc 60 phút và có thể dùng tài liệu/giáo trình giáo viên tải lên làm nguồn kiến thức. | AI chỉ tạo draft có nguồn để giáo viên duyệt; không tự finalize đề, công bố đáp án hay chốt điểm. |
+| D-025 | CONFIRMED (2026-10-13) | `student_code` duy nhất trên toàn hệ thống. | Học sinh giữ một identity xuyên năm; lịch sử lớp được biểu diễn bằng enrollment. |
+| D-026 | CONFIRMED (2026-10-13) | Một học sinh có thể thuộc nhiều lớp trong cùng năm học, nhưng không được ghi danh trùng cùng một lớp. | Hỗ trợ lớp chính, lớp bồi dưỡng/chuyên đề mà không nhân bản hồ sơ học sinh. |
+| D-027 | CONFIRMED (2026-10-13) | Import học sinh/ghi danh có preview và commit all-or-nothing. | Không để roster ở trạng thái nửa thành công; partial mode chỉ xem xét ở giai đoạn sau nếu có nhu cầu. |
 
 ## 2. Đề xuất kiến trúc cần duyệt
 
@@ -41,9 +44,9 @@
 | ID | Trạng thái | Câu hỏi | Khuyến nghị hiện tại |
 |---|---|---|---|
 | O-001 | OPEN | Khôi phục mật khẩu qua email hay token một lần do chủ hệ thống tạo? | Nếu chưa có email service, dùng bootstrap/recovery token cục bộ có hạn, không endpoint công khai gửi email giả. |
-| O-002 | OPEN | `student_code` unique toàn hệ thống hay theo năm học/trường? | Unique toàn hệ thống; học sinh qua năm bằng enrollment. |
-| O-003 | OPEN | Học sinh có thể ở nhiều lớp cùng một năm không? | Cho phép về mặt dữ liệu, nhưng cảnh báo/chặn theo loại lớp sau khi có nghiệp vụ. |
-| O-004 | OPEN | Import lỗi: all-or-nothing hay nhận các dòng hợp lệ? | Preview đầy đủ, mặc định all-or-nothing; thêm partial mode sau nếu cần. |
+| O-002 | CONFIRMED (2026-10-13) | `student_code` unique toàn hệ thống hay theo năm học/trường? | Đã chốt unique toàn hệ thống tại D-025. |
+| O-003 | CONFIRMED (2026-10-13) | Học sinh có thể ở nhiều lớp cùng một năm không? | Đã chốt cho phép tại D-026; vẫn chặn trùng cùng cặp lớp–học sinh. |
+| O-004 | CONFIRMED (2026-10-13) | Import lỗi: all-or-nothing hay nhận các dòng hợp lệ? | Đã chốt preview + all-or-nothing tại D-027. |
 | O-005 | OPEN | Decimal API là JSON number hay string? | String cho contract điểm/tolerance để tránh client binary rounding, dùng schema rõ. |
 
 ### P1 — phải chốt trước M03/M04

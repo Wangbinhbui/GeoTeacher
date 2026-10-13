@@ -194,7 +194,7 @@ export function ClassroomPage({ session }: { session: Session }) {
           <Card className="p-6">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <div><p className="text-sm font-semibold text-emerald-700">Năm học đang chọn</p><h2 className="mt-1 text-2xl font-semibold">{selectedYear?.code ?? 'Chưa có năm học'}</h2></div>
-              {selectedYear && selectedYear.status !== 'ARCHIVED' && <div className="flex gap-2"><Button variant="outline" size="sm" onClick={() => editYear(selectedYear)}><Pencil className="size-4" /> Sửa</Button><Button variant="outline" size="sm" onClick={() => window.confirm('Lưu trữ năm học này?') && archiveYearMutation.mutate(selectedYear)}><Archive className="size-4" /> Lưu trữ</Button></div>}
+              <div className="flex flex-wrap gap-2"><Button asChild size="sm"><Link to="/students"><UsersRound className="size-4" /> Quản lý học sinh</Link></Button>{selectedYear && selectedYear.status !== 'ARCHIVED' && <><Button variant="outline" size="sm" onClick={() => editYear(selectedYear)}><Pencil className="size-4" /> Sửa</Button><Button variant="outline" size="sm" onClick={() => window.confirm('Lưu trữ năm học này?') && archiveYearMutation.mutate(selectedYear)}><Archive className="size-4" /> Lưu trữ</Button></>}</div>
             </div>
           </Card>
 

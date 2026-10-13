@@ -1,6 +1,6 @@
 # Kế hoạch triển khai GeoTeacher MVP
 
-> Hiện trạng 2026-10-13: **Foundation và School year/Class đã chạy local.** Docker/WSL, authentication và lát cắt đầu M02 đã có; Student/Enrollment và M03–M05 chưa triển khai.
+> Hiện trạng 2026-10-13: **Foundation và Student/Enrollment đã chạy local.** Docker/WSL, authentication, School year/Class và CRUD/search/enrollment M02 đã có; import/export M02 và M03–M05 chưa triển khai.
 
 ## 0. Nguyên tắc kế hoạch
 
@@ -44,9 +44,9 @@
 
 ### Slice 3: Student/enrollment
 
-- [ ] CRUD student, enrollment và tìm kiếm.
-- [ ] Chốt O-002/O-003; constraint/integration test.
-- [ ] Import preview/confirm Excel và export; chốt O-004.
+- [x] CRUD student, enrollment, rời lớp và tìm kiếm.
+- [x] Chốt O-002/O-003; unique constraint và domain/service test.
+- [ ] Import preview/confirm Excel và export; O-004 đã chốt all-or-nothing.
 
 **Exit:** giáo viên quản lý được roster nhiều năm học mà dữ liệu cũ không mất.
 

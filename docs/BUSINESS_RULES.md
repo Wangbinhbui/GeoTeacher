@@ -1,6 +1,14 @@
 # Quy tắc nghiệp vụ GeoTeacher
 
-## 1. Đề và snapshot
+## 1. Học sinh và ghi danh
+
+- `CONFIRMED` **BR-CLS-01**: `student_code` sau chuẩn hóa là duy nhất trên toàn hệ thống; học sinh giữ cùng identity khi qua năm học.
+- `CONFIRMED` **BR-CLS-02**: Một học sinh được phép thuộc nhiều lớp trong cùng năm học, nhưng không có hai ghi danh cho cùng cặp lớp–học sinh.
+- `CONFIRMED` **BR-CLS-03**: Rời lớp là state transition có ngày hiệu lực, không xóa ghi danh; ngày rời không được trước ngày ghi danh.
+- `CONFIRMED` **BR-CLS-04**: Không lưu trữ học sinh khi còn ghi danh đang hoạt động.
+- `CONFIRMED` **BR-CLS-05**: Import học sinh/ghi danh luôn preview đầy đủ và commit all-or-nothing; có lỗi ở bất kỳ dòng nào thì không ghi dòng nào.
+
+## 2. Đề và snapshot
 
 ### Quy tắc đã xác nhận
 
@@ -25,7 +33,7 @@
 - `PROPOSED` **BR-EX-16**: Snapshot có checksum canonical; checksum được kiểm tra trước khi chấm/export để phát hiện corruption, không dùng thay cho constraint bất biến.
 - `PROPOSED` **BR-EX-17**: Finalized/archived chỉ khác khả năng sử dụng mới; archive không thay đổi dữ liệu snapshot.
 
-## 2. Tạo nhiều mã đề
+## 3. Tạo nhiều mã đề
 
 - `CONFIRMED` Không làm đổi ý nghĩa câu hỏi, đáp án hay mối quan hệ với ngữ liệu chung.
 - `PROPOSED` Nhóm ngữ liệu (`shuffle_group`) là đơn vị đảo; câu trong nhóm giữ thứ tự tương đối trừ khi được cho phép rõ ràng.
@@ -35,7 +43,7 @@
 - `PROPOSED` Sau khi variant đã có submission, mapping là bất biến. Sinh thêm variant là `OPEN` và mặc định không cho phép cho tới khi chốt chính sách.
 - `PROPOSED` Generator phải qua invariant test: mỗi câu xuất hiện đúng một lần, mỗi option đúng một lần, đáp án sau permutation tương đương đáp án snapshot, nhóm không bị vỡ.
 
-## 3. Chấm `TRUE_FALSE`
+## 4. Chấm `TRUE_FALSE`
 
 - `CONFIRMED` So sánh từng mệnh đề và dùng bảng quy đổi cấu hình được; ví dụ 0/1/2/3/4 đúng → 0/0.1/0.25/0.5/1 chỉ là minh họa, không phải mặc định cứng.
 - `PROPOSED` Bảng quy đổi thuộc grading config của câu và được copy vào snapshot; có đủ khóa từ `0..N`, không trùng và điểm không giảm khi số ý đúng tăng.
@@ -43,7 +51,7 @@
 - `OPEN` Mệnh đề bỏ trống hoặc đánh dấu không hợp lệ được tính sai hay chuyển review. Khuyến nghị MVP: tính 0 cho mệnh đề đó nhưng giữ cờ review trước khi finalize.
 - `OPEN` Có cho partial credit theo từng mệnh đề độc lập ngoài bảng correct-count hay không. Khuyến nghị MVP: chỉ một mode/bảng trên mỗi câu.
 
-## 4. Chấm `SHORT_ANSWER`
+## 5. Chấm `SHORT_ANSWER`
 
 - `CONFIRMED` Chỉ coi tương đương khi có quy tắc rõ; hỗ trợ nhiều đáp án, sai số, đơn vị, làm tròn và chuẩn hóa số.
 - `PROPOSED` Mỗi câu chọn rõ một mode: `TEXT_EXACT_SET`, `NUMERIC_TOLERANCE`, hoặc `MANUAL_REVIEW`; không đoán mode từ chuỗi nhập.
@@ -54,7 +62,7 @@
 - `OPEN` Chọn default scale/rounding mode, relative tolerance và cách xử lý đáp án như `10%` so với `0.1`. Khuyến nghị MVP: cấu hình từng câu, mặc định `HALF_UP`, không quy đổi phần trăm ngầm.
 - `PROPOSED` Parse/rule không đủ chắc chắn trả `NEEDS_REVIEW`, không tự cho đúng/sai.
 
-## 5. Chấm bài và điểm
+## 6. Chấm bài và điểm
 
 - `CONFIRMED` **BR-GR-01**: Submission gắn học sinh và đợt kiểm tra.
 - `CONFIRMED` **BR-GR-02/03**: Phải xác định mã đề; không auto-grade khi thiếu mã.
@@ -79,7 +87,7 @@
 - `PROPOSED` Điều chỉnh sau finalize luôn tạo version kế tiếp với `supersedes_version_id`, lý do bắt buộc, actor/time và audit event trong cùng transaction.
 - `PROPOSED` Không sửa/xóa grade version cũ. `grades.current_version_id` chỉ là con trỏ tiện truy vấn; lịch sử là nguồn kiểm chứng.
 
-## 6. State machine đề xuất
+## 7. State machine đề xuất
 
 ### Exam version
 
@@ -104,7 +112,7 @@
 
 `PROPOSED`: `REPLACED` là trạng thái terminal khi có quy trình làm lại/thay bài. `OPEN`: chính sách cụ thể.
 
-## 7. Transaction bắt buộc
+## 8. Transaction bắt buộc
 
 - `PROPOSED` Finalize exam + tạo toàn bộ snapshot/checksum.
 - `PROPOSED` Publish/generate một variant + mappings/answer key.

@@ -9,11 +9,12 @@ Source hiện tại cung cấp:
 - Backend Java 21, Spring Boot, Spring Security, Spring Data JPA, Flyway và PostgreSQL.
 - Xác thực bằng server-side session, CSRF cookie, bootstrap tài khoản đầu tiên và đổi mật khẩu.
 - Frontend React/TypeScript, Vite, Tailwind CSS, React Router, TanStack Query, React Hook Form và Zod.
-- Màn hình đăng nhập, dashboard và quản lý năm học/lớp bằng các UI primitive theo hướng shadcn/ui.
+- Màn hình đăng nhập, dashboard, quản lý năm học/lớp và học sinh/xếp lớp bằng các UI primitive theo hướng shadcn/ui.
 - CRUD/archive năm học và lớp, optimistic conflict, mã lớp duy nhất trong từng năm học và được lặp ở năm khác.
+- CRUD/archive/tìm kiếm học sinh; mã học sinh duy nhất toàn hệ thống; ghi danh nhiều lớp, rời lớp có lưu lịch sử.
 - Docker Compose cho PostgreSQL, backend và frontend.
 
-Student/enrollment, ngân hàng câu hỏi, đề và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Roadmap mở rộng đã ghi nhận AI tạo đề 15/45/60 phút bám tài liệu giáo viên tải lên, có trích nguồn và bước giáo viên duyệt.
+Import/export roster, ngân hàng câu hỏi, đề và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Roadmap mở rộng đã ghi nhận AI tạo đề 15/45/60 phút bám tài liệu giáo viên tải lên, có trích nguồn và bước giáo viên duyệt.
 
 ## Chạy bằng Docker Compose
 

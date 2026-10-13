@@ -54,8 +54,8 @@
 - Bộ tài liệu phân tích/thiết kế được duy trì cùng source code.
 - Foundation đã có Spring Boot/PostgreSQL/Flyway, React/TypeScript/Tailwind và Docker Compose.
 - Lát cắt M01 đầu tiên đã có bootstrap tài khoản, đăng nhập/đăng xuất bằng session + CSRF và đổi mật khẩu; cơ chế khôi phục mật khẩu vẫn `OPEN`.
-- Dashboard đã nối tới màn hình quản lý năm học/lớp; M02 School year/Class có migration, API, UI, archive và optimistic conflict.
-- Bước code kế tiếp: chốt O-002/O-003/O-004 và triển khai Student/Enrollment/import-export.
+- Dashboard đã nối tới màn hình quản lý năm học/lớp và học sinh; M02 có migration, API, UI cho School year/Class/Student/Enrollment, archive, rời lớp và optimistic conflict.
+- O-002/O-003/O-004 đã chốt: mã học sinh duy nhất toàn hệ thống, được phép thuộc nhiều lớp cùng năm và import dùng preview + all-or-nothing. Bước code kế tiếp của M02 là import/export Excel.
 - AI tạo đề bám tài liệu đã vào roadmap mở rộng, chưa chen ngang dependency M02–M04.
 
 ## 6. Tiêu chí thành công MVP

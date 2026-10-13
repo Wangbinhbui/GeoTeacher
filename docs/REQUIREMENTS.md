@@ -18,8 +18,9 @@
 - `CONFIRMED` Tạo/sửa/lưu trữ lớp theo năm học; dữ liệu năm cũ được giữ lại.
 - `CONFIRMED` Thêm/sửa/tìm kiếm học sinh; quản lý ghi danh giữa học sinh và lớp.
 - `CONFIRMED` Import/export Excel và xem lịch sử kiểm tra/kết quả theo lớp.
-- `OPEN` Định nghĩa mã học sinh duy nhất toàn hệ thống hay chỉ theo năm học/trường.
-- `OPEN` Một học sinh có thể đồng thời thuộc nhiều lớp trong cùng năm học hay không.
+- `CONFIRMED` Mã học sinh duy nhất trên toàn hệ thống; việc thuộc lớp/năm học được quản lý bằng ghi danh.
+- `CONFIRMED` Một học sinh có thể đồng thời thuộc nhiều lớp trong cùng năm học; không được ghi danh trùng vào cùng một lớp.
+- `CONFIRMED` Import học sinh/ghi danh phải có bước preview và chỉ commit khi toàn bộ dữ liệu hợp lệ (all-or-nothing).
 - `CONFIRMED` Mã lớp không được trùng trong cùng một năm học; được phép dùng lại ở năm học khác.
 
 ### FR-QST — Ngân hàng câu hỏi

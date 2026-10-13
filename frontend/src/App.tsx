@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoginPage } from './features/auth/LoginPage'
 import { ClassroomPage } from './features/classroom/ClassroomPage'
 import { DashboardPage } from './features/dashboard/DashboardPage'
+import { StudentPage } from './features/student/StudentPage'
 import { getSession, type Session } from './lib/api'
 import { sessionQueryKey } from './lib/auth-queries'
 
@@ -47,6 +48,16 @@ function App() {
         element={
           session.authenticated ? (
             <ClassroomPage session={session} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route
+        path="/students"
+        element={
+          session.authenticated ? (
+            <StudentPage session={session} />
           ) : (
             <Navigate to="/login" replace />
           )

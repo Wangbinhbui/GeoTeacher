@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom'
 const navigation = [
   { label: 'Tổng quan', icon: LayoutDashboard, active: true },
   { label: 'Lớp học', icon: UsersRound },
+  { label: 'Học sinh', icon: GraduationCap },
   { label: 'Ngân hàng câu hỏi', icon: LibraryBig },
   { label: 'Đề kiểm tra', icon: FileStack },
   { label: 'Chấm bài', icon: ClipboardCheck },
@@ -63,8 +64,11 @@ export function DashboardPage({ session }: { session: Session }) {
             <button
               key={item.label}
               type="button"
-              disabled={!item.active && item.label !== 'Lớp học'}
-              onClick={() => item.label === 'Lớp học' && navigate('/classrooms')}
+              disabled={!item.active && item.label !== 'Lớp học' && item.label !== 'Học sinh'}
+              onClick={() => {
+                if (item.label === 'Lớp học') navigate('/classrooms')
+                if (item.label === 'Học sinh') navigate('/students')
+              }}
               className={`flex h-11 w-full items-center gap-3 rounded-xl px-3 text-left text-sm font-medium transition ${
                 item.active
                   ? 'bg-emerald-50 text-emerald-900'
