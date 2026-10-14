@@ -120,3 +120,11 @@
 - `PROPOSED` Auto-grade ghi tất cả item scores và tổng dự thảo.
 - `PROPOSED` Finalize grade và adjustment grade version/audit.
 - `PROPOSED` Import chỉ commit sau bước preview/confirm theo chính sách import đã chọn.
+
+## 9. Tài liệu nguồn cho AI
+
+- `PROPOSED` **BR-DOC-01**: Chỉ nhận PDF/DOCX có nội dung thật khớp phần mở rộng; không tin `Content-Type` hoặc tên file từ client.
+- `PROPOSED` **BR-DOC-02**: File tối đa 20 MB, khóa lưu trữ do server sinh và metadata lưu SHA-256 để phát hiện tài liệu trùng đang hoạt động.
+- `PROPOSED` **BR-DOC-03**: PDF/DOCX không trích được chữ không được đánh dấu sẵn sàng; PDF scan báo rõ cần OCR thay vì tạo nguồn rỗng.
+- `PROPOSED` **BR-DOC-04**: Mỗi đoạn trích lưu nhãn nguồn và số trang khi định dạng cung cấp được; draft AI về sau phải liên kết tới các đoạn này.
+- `PROPOSED` **BR-DOC-05**: Lưu trữ tài liệu ở UI hiện chỉ archive metadata và giữ file vật lý để tránh mất nguồn ngoài ý muốn. Chính sách retention/xóa vật lý vẫn theo O-017.

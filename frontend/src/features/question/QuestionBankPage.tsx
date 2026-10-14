@@ -143,7 +143,8 @@ export function QuestionBankPage({ session }: { session: Session }) {
       <section className="space-y-6">
       <Card className="border-amber-200 bg-amber-50/70 p-5">
         <h2 className="font-semibold text-amber-950">Tạo câu hỏi từ tài liệu bằng AI</h2>
-        <p className="mt-2 text-sm leading-6 text-amber-900/70">Khu vực tải PDF/DOCX sẽ nằm trong “Giáo án & tài liệu”. Upload và AI quét chưa được bật vì nhà cung cấp AI, quyền riêng tư và OCR tài liệu scan vẫn cần chốt.</p>
+        <p className="mt-2 text-sm leading-6 text-amber-900/70">Bạn đã có thể tải và trích chữ PDF/DOCX trong “Giáo án & tài liệu”. Tạo câu hỏi tự động chưa gọi model vì provider, quyền riêng tư và OCR tài liệu scan vẫn cần chốt.</p>
+        <Button asChild variant="outline" size="sm" className="mt-4"><Link to="/documents"><BookOpenCheck className="size-4" /> Mở tài liệu nguồn</Link></Button>
       </Card>
       <Card className="overflow-hidden">
         <div className="flex flex-col gap-4 border-b border-stone-100 p-5 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex items-center gap-3"><BookOpenCheck className="size-5 text-violet-700" /><h2 className="font-semibold">Câu hỏi đã lưu</h2></div><p className="mt-1 text-xs text-stone-500">Danh sách không tải kèm đáp án đúng.</p></div><label className="relative block sm:w-72"><Search className="absolute left-3 top-3.5 size-4 text-stone-400" /><Input className="pl-9" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Tìm nội dung hoặc chủ đề" /></label></div>

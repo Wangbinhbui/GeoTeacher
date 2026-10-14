@@ -64,6 +64,8 @@
 | O-018 | OPEN | Cấu hình mặc định cho đề 15/45/60 phút gồm số câu, loại câu, ma trận và thang điểm nào? | Dùng preset có thể chỉnh; giáo viên luôn xem ma trận và duyệt draft trước finalize. |
 | O-019 | OPEN | Định dạng tài liệu AI hỗ trợ ở lát cắt đầu tiên? | Ưu tiên PDF/DOCX có text; OCR cho tài liệu scan để phase sau và báo rõ trang không đọc được. |
 
+> Ghi chú triển khai 2026-10-14: adapter local của D-017 và phần parse/chia đoạn của D-023 đã được hiện thực như nền có thể thay thế; trạng thái vẫn là `PROPOSED`. Lát cắt hiện nhận PDF/DOCX có text theo khuyến nghị O-019 nhưng không tự đóng quyết định này, không gửi dữ liệu ra AI và không đặt chính sách retention thay cho O-017.
+
 ### P2 — phải chốt trước M05
 
 | ID | Trạng thái | Câu hỏi | Khuyến nghị hiện tại |

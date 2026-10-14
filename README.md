@@ -14,9 +14,10 @@ Source hiện tại cung cấp:
 - CRUD/archive/tìm kiếm học sinh; mã học sinh duy nhất toàn hệ thống; ghi danh nhiều lớp, rời lớp có lưu lịch sử.
 - Import học sinh Excel có file mẫu, preview từng dòng, confirm all-or-nothing và export roster theo lớp.
 - Ngân hàng câu hỏi bước đầu hỗ trợ CRUD/search/archive câu trắc nghiệm một đáp án, metadata khối/chủ đề/mức độ và không lộ đáp án ở API danh sách.
+- Khu vực **Giáo án & tài liệu** hỗ trợ tải PDF/DOCX có text tối đa 20 MB, checksum chống trùng, trích xuất/chia đoạn và hiển thị nhãn nguồn để giáo viên kiểm tra.
 - Docker Compose cho PostgreSQL, backend và frontend.
 
-Các loại câu hỏi còn lại, đề và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Upload PDF/DOCX và AI tạo đề 15/45/60 phút bám tài liệu đã có trong roadmap nhưng chưa bật trong ứng dụng vì provider, retention/quyền riêng tư và OCR vẫn cần chốt.
+Các loại câu hỏi còn lại, đề và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Model AI tạo đề 15/45/60 phút chưa được gọi vì provider, retention/quyền riêng tư và preset ma trận vẫn cần chốt; PDF scan cần OCR cũng chưa hỗ trợ.
 
 ## Chạy bằng Docker Compose
 
@@ -48,6 +49,7 @@ npm run dev
 ```
 
 Frontend dev server proxy `/api` và `/actuator` sang backend ở cổng `8080`.
+Khi chạy backend ngoài Compose, file tải lên mặc định nằm tại `./data/files`; có thể đổi bằng `FILE_STORAGE_ROOT`. Compose dùng volume `geoteacher_files` để giữ file qua lần khởi động lại.
 
 ## Kiểm thử
 

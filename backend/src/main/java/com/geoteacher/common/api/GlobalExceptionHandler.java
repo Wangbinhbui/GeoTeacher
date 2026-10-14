@@ -4,10 +4,12 @@ import com.geoteacher.auth.application.AccountException;
 import com.geoteacher.classroom.application.ClassroomErrorType;
 import com.geoteacher.classroom.application.ClassroomException;
 import com.geoteacher.question.application.QuestionException;
+import com.geoteacher.document.application.DocumentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -61,6 +63,16 @@ public class GlobalExceptionHandler {
         return error(status, exception.getCode(), exception.getMessage(), Map.of());
     }
 
+    @ExceptionHandler(DocumentException.class)
+    ResponseEntity<ApiErrorResponse> handleDocument(DocumentException exception) {
+        var status = switch (exception.getType()) {
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case CONFLICT -> HttpStatus.CONFLICT;
+            case INVALID_STATE -> HttpStatus.BAD_REQUEST;
+        };
+        return error(status, exception.getCode(), exception.getMessage(), Map.of());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException exception) {
         var fieldErrors = new LinkedHashMap<String, String>();
@@ -81,6 +93,16 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 "INVALID_JSON",
                 "Dữ liệu JSON không hợp lệ hoặc không dùng mã hóa UTF-8.",
+                Map.of()
+        );
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    ResponseEntity<ApiErrorResponse> handleMaxUploadSize() {
+        return error(
+                HttpStatus.BAD_REQUEST,
+                "DOCUMENT_FILE_TOO_LARGE",
+                "File tối đa 20 MB.",
                 Map.of()
         );
     }

@@ -64,6 +64,8 @@
 - `CONFIRMED` Nội dung sinh từ tài liệu phải có liên kết nguồn đủ để giáo viên kiểm chứng; không được âm thầm dùng kiến thức ngoài nguồn khi chế độ “chỉ theo giáo trình” được chọn.
 - `OPEN` Nhà cung cấp/model, chính sách gửi dữ liệu/retention, preset ma trận cho từng thời lượng và định dạng tài liệu đầu tiên.
 
+> Hiện trạng triển khai 2026-10-14: đã có ingestion local cho PDF/DOCX có text, chia đoạn và nhãn nguồn. Chưa gửi tài liệu ra dịch vụ AI, chưa tạo câu hỏi tự động và chưa hỗ trợ OCR.
+
 ## 3. Yêu cầu phi chức năng
 
 ### Security và privacy

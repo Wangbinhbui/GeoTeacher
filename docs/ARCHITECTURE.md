@@ -139,6 +139,13 @@ Giữ resource-oriented API và tách command có state transition:
 - `/api/v1/student-excel/template|preview|confirm|export` cho roster Excel; preview không ghi dữ liệu, confirm gọi lại cùng validator trong một transaction.
 - `/api/v1/questions` hiện có CRUD/search/archive và detail cho `SINGLE_CHOICE`; `/questions/{id}/copy`, import và ba loại còn lại sẽ bổ sung ở các lát cắt sau.
 
+### Document/file
+
+- `GET /api/v1/documents` và `GET /api/v1/documents/{id}` — danh sách/chi tiết tài liệu cùng các đoạn và nhãn nguồn đã trích xuất.
+- `POST /api/v1/documents` multipart — kiểm tra bytes PDF/DOCX, trích text, lưu binary qua `FileStorage`, rồi lưu metadata/chunk trong transaction.
+- `POST /api/v1/documents/{id}/archive` — state transition dùng optimistic version; hiện không xóa binary.
+- Adapter local dùng volume bền vững khi chạy Compose. Object storage, vector index, model provider và retention vẫn là điểm thay thế/chính sách chưa chốt.
+
 ### Exam
 
 - `POST /api/v1/exams` — tạo catalog + draft đầu.

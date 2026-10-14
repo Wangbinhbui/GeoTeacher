@@ -24,6 +24,9 @@ services:
       GEOTEACHER_BOOTSTRAP_ADMIN_USERNAME: ${GEOTEACHER_BOOTSTRAP_ADMIN_USERNAME:-teacher}
       GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD: ${GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD:?Set GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD in .env}
       GEOTEACHER_BOOTSTRAP_ADMIN_DISPLAY_NAME: ${GEOTEACHER_BOOTSTRAP_ADMIN_DISPLAY_NAME:-Giáo viên Địa lý}
+      FILE_STORAGE_ROOT: /data/geoteacher/files
+    volumes:
+      - geoteacher_files:/data/geoteacher/files
     depends_on:
       db:
         condition: service_healthy
@@ -39,3 +42,4 @@ services:
 
 volumes:
   geoteacher_postgres:
+  geoteacher_files:

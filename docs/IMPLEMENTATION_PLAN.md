@@ -1,6 +1,6 @@
 # Kế hoạch triển khai GeoTeacher MVP
 
-> Hiện trạng 2026-10-13: **M02 đã chạy local và M03 đã bắt đầu.** Authentication, quản lý lớp/học sinh, import/export roster và question bank `SINGLE_CHOICE` đã có; ba loại câu hỏi còn lại và M04–M05 chưa triển khai.
+> Hiện trạng 2026-10-14: **M02 đã chạy local, M03 đã bắt đầu và nền document ingestion đã có.** Authentication, quản lý lớp/học sinh, import/export roster, question bank `SINGLE_CHOICE` và upload/trích xuất PDF-DOCX đã có; ba loại câu hỏi còn lại, M04–M05 và model AI chưa triển khai.
 
 ## 0. Nguyên tắc kế hoạch
 
@@ -54,8 +54,9 @@
 
 ### 2.1. Taxonomy và file
 
-- [ ] Topic tree, cognitive level, file storage local + metadata/checksum.
-- [ ] Upload validation và cleanup orphan an toàn.
+- [ ] Topic tree và cognitive level.
+- [x] `FileStorage` local + metadata/checksum cho tài liệu nguồn.
+- [x] Upload PDF/DOCX validation và cleanup bù trừ khi transaction lỗi; job quét orphan định kỳ chưa có.
 
 ### 2.2. Bốn loại câu hỏi
 
@@ -150,8 +151,8 @@
 
 ## Phase AI — Document-grounded exam drafting
 
-1. Chốt O-016–O-019 và đánh giá quyền riêng tư/chi phí/chất lượng tiếng Việt.
-2. Xây `document` + `file` ingestion: upload an toàn, parse, chia đoạn, checksum, trạng thái và báo trang lỗi.
+1. Chốt O-016–O-019 và đánh giá quyền riêng tư/chi phí/chất lượng tiếng Việt. **Đang mở; không chặn ingestion local không gọi AI.**
+2. [x] Xây `document` + `file` ingestion: upload an toàn PDF/DOCX có text, parse, chia đoạn, checksum, trạng thái và báo tài liệu không có text/OCR.
 3. Xây retrieval có scope theo tài liệu/lớp/khối và trả citation tới đoạn/trang nguồn.
 4. Xây preset 15/45/60 phút thành cấu hình có thể chỉnh, ánh xạ sang ma trận đề.
 5. Model chỉ trả structured draft; backend validate loại câu, đáp án, rubric, điểm và tổng thời lượng trước khi lưu.

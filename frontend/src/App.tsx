@@ -6,6 +6,7 @@ import { ClassroomPage } from './features/classroom/ClassroomPage'
 import { DashboardPage } from './features/dashboard/DashboardPage'
 import { StudentPage } from './features/student/StudentPage'
 import { QuestionBankPage } from './features/question/QuestionBankPage'
+import { DocumentPage } from './features/document/DocumentPage'
 import { getSession, type Session } from './lib/api'
 import { sessionQueryKey } from './lib/auth-queries'
 
@@ -69,6 +70,16 @@ function App() {
         element={
           session.authenticated ? (
             <QuestionBankPage session={session} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route
+        path="/documents"
+        element={
+          session.authenticated ? (
+            <DocumentPage session={session} />
           ) : (
             <Navigate to="/login" replace />
           )

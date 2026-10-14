@@ -48,7 +48,7 @@
 - Điểm từng câu không vượt tối đa; chỉ chốt khi các phần bắt buộc hoàn tất.
 - Thay đổi điểm đã chốt phải có lịch sử; không xóa cứng kết quả đã chốt.
 
-## 5. Hiện trạng repository (2026-10-13)
+## 5. Hiện trạng repository (2026-10-14)
 
 - Repository Git đã được khởi tạo và liên kết với `https://github.com/Wangbinhbui/GeoTeacher.git`.
 - Bộ tài liệu phân tích/thiết kế được duy trì cùng source code.
@@ -57,8 +57,10 @@
 - Dashboard đã nối tới màn hình quản lý năm học/lớp, học sinh và ngân hàng câu hỏi.
 - M02 đã có CRUD/search/enrollment, import Excel preview + confirm all-or-nothing, file mẫu và export roster theo lớp.
 - M03 đã bắt đầu với CRUD/search/archive câu `SINGLE_CHOICE`; danh sách không trả đáp án, chi tiết giáo viên mới có options/answer.
+- Nền tài liệu nguồn đã có upload PDF/DOCX tối đa 20 MB, nhận diện nội dung thật, checksum chống trùng, lưu binary qua `FileStorage` local, trích text/chia đoạn và nhãn nguồn trang/đoạn để giáo viên kiểm tra. PDF scan chưa có text được báo cần OCR.
+- Màn hình **Giáo án & tài liệu** cho phép tải lên, xem các đoạn đã đọc và lưu trữ metadata; file vật lý được giữ lại theo chính sách an toàn hiện tại.
 - Bước code kế tiếp: mở rộng question bank với taxonomy/file và các loại `TRUE_FALSE`, `SHORT_ANSWER`, `ESSAY` sau khi chốt quy tắc chấm liên quan.
-- AI tạo đề bám tài liệu đã vào roadmap mở rộng, chưa chen ngang dependency M02–M04.
+- Chưa gọi model AI: provider, retention/quyền riêng tư và preset ma trận chi tiết vẫn `OPEN`; lát cắt tiếp theo của phase AI là retrieval có scope và draft có citation.
 
 ## 6. Tiêu chí thành công MVP
 

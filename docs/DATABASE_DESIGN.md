@@ -117,9 +117,17 @@ erDiagram
 - UNIQUE `(storage_provider, storage_key)`; index `sha256` để phát hiện trùng.
 - `storage_key` do server tạo, không tin tên upload. File đang được snapshot tham chiếu chỉ được mark `RETAINED/ARCHIVED`, không xóa vật lý.
 
+> Hiện trạng triển khai: migration V7 đã tạo `file_assets` với provider/key, metadata, SHA-256, trạng thái và optimistic version; binary được lưu sau abstraction `FileStorage`.
+
+#### `source_documents` và `document_chunks`
+
+- `source_documents` liên kết một `file_asset`, lưu tiêu đề, khối lớp tùy chọn, trạng thái, số ký tự/đoạn và optimistic version.
+- `document_chunks` lưu thứ tự đoạn, số trang nullable, nhãn nguồn, nội dung và số ký tự. Đây là nền citation/retrieval; vector embedding và scope retrieval chưa được chọn.
+- Migration V7 đã triển khai hai bảng này cho PDF/DOCX có text. Archive hiện giữ binary; retention/xóa vật lý còn `OPEN` theo O-017.
+
 ### 4.4. Question bank
 
-> Hiện trạng triển khai: migration V5/V6 đã tạo `questions` và `question_options` cho lát cắt `SINGLE_CHOICE`. Các bảng taxonomy, grading config, item/rubric và attachment bên dưới vẫn là thiết kế mục tiêu `PROPOSED`.
+> Hiện trạng triển khai: migration V5/V6 đã tạo `questions` và `question_options` cho lát cắt `SINGLE_CHOICE`; V7 bổ sung nền file/document độc lập. Các bảng taxonomy, grading config, item/rubric và attachment bên dưới vẫn là thiết kế mục tiêu `PROPOSED`.
 
 #### `topics`
 
