@@ -8,17 +8,15 @@ import com.geoteacher.ai.application.AiException;
 import com.geoteacher.ai.application.AiGeneratedExam;
 import com.geoteacher.ai.application.AiModelGateway;
 import com.geoteacher.ai.application.AiProperties;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import java.util.List;
 import java.util.Map;
 
-/** Adapter OpenAI Responses API; store=false và không upload file, chỉ gửi các đoạn được giáo viên chọn. */
+/** Adapter Gemini Interactions API; chỉ gửi prompt đã được giáo viên xác nhận và không lưu interaction. */
 @Component
-public class OpenAiModelGateway implements AiModelGateway {
+public class GeminiModelGateway implements AiModelGateway {
 
     private static final String SCHEMA = """
             {"type":"object","additionalProperties":false,"required":["title","instructions","sections"],"properties":{
@@ -40,13 +38,10 @@ public class OpenAiModelGateway implements AiModelGateway {
     private final RestClient client;
     private final JsonNode schema;
 
-    public OpenAiModelGateway(AiProperties properties, ObjectMapper objectMapper) {
+    public GeminiModelGateway(AiProperties properties, ObjectMapper objectMapper) {
         this.properties = properties;
         this.objectMapper = objectMapper;
-        this.client = RestClient.builder()
-                .baseUrl(properties.baseUrl())
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + nullToEmpty(properties.apiKey()))
-                .build();
+        this.client = RestClient.builder().baseUrl(properties.baseUrl()).build();
         try {
             this.schema = objectMapper.readTree(SCHEMA);
         } catch (JacksonException exception) {
@@ -58,20 +53,21 @@ public class OpenAiModelGateway implements AiModelGateway {
     public AiGeneratedExam generate(String prompt) {
         if (!configured()) throw new AiException(
                 "AI_NOT_CONFIGURED", AiErrorType.INVALID_STATE,
-                "Chưa cấu hình OPENAI_API_KEY cho backend."
+                "Chưa cấu hình GEMINI_API_KEY cho backend."
         );
         var body = Map.of(
                 "model", properties.model(),
                 "store", false,
-                "instructions", "Bạn là giáo viên Địa lý Việt Nam. Chỉ tạo nội dung dựa trên NGUỒN KIẾN THỨC được cung cấp. Trả đúng JSON Schema.",
+                "system_instruction", "Bạn là giáo viên Địa lý Việt Nam. Chỉ tạo nội dung dựa trên NGUỒN KIẾN THỨC được cung cấp. Trả đúng JSON Schema.",
                 "input", prompt,
-                "text", Map.of("format", Map.of(
-                        "type", "json_schema", "name", "geoteacher_exam_draft", "strict", true, "schema", schema
-                ))
+                "response_format", Map.of(
+                        "type", "text", "mime_type", "application/json", "schema", schema
+                )
         );
         try {
             var response = client.post()
-                    .uri("/v1/responses")
+                    .uri("/v1/interactions")
+                    .header("x-goog-api-key", properties.apiKey())
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(body)
                     .retrieve()
@@ -83,21 +79,22 @@ public class OpenAiModelGateway implements AiModelGateway {
         } catch (Exception exception) {
             throw new AiException(
                     "AI_PROVIDER_FAILED", AiErrorType.PROVIDER_UNAVAILABLE,
-                    "Dịch vụ AI không tạo được đề. Hãy kiểm tra API key, model hoặc thử lại."
+                    "Gemini không tạo được đề. Hãy kiểm tra API key, model hoặc thử lại."
             );
         }
     }
 
     private String extractOutputText(JsonNode response) {
         if (response == null) throw providerFailed();
-        for (var output : response.path("output")) {
-            for (var content : output.path("content")) {
-                if ("output_text".equals(content.path("type").asText()) && !content.path("text").asText().isBlank()) {
+        for (var step : response.path("steps")) {
+            if (!"model_output".equals(step.path("type").asText())) continue;
+            for (var content : step.path("content")) {
+                if ("text".equals(content.path("type").asText()) && !content.path("text").asText().isBlank()) {
                     return content.path("text").asText();
                 }
                 if ("refusal".equals(content.path("type").asText())) {
                     throw new AiException("AI_REFUSED", AiErrorType.PROVIDER_UNAVAILABLE,
-                            "Model từ chối tạo đề từ yêu cầu này.");
+                            "Gemini từ chối tạo đề từ yêu cầu này.");
                 }
             }
         }
@@ -106,13 +103,12 @@ public class OpenAiModelGateway implements AiModelGateway {
 
     private AiException providerFailed() {
         return new AiException("AI_EMPTY_RESPONSE", AiErrorType.PROVIDER_UNAVAILABLE,
-                "Dịch vụ AI không trả về nội dung đề.");
+                "Gemini không trả về nội dung đề.");
     }
 
     @Override public boolean configured() {
         return properties.enabled() && properties.apiKey() != null && !properties.apiKey().isBlank();
     }
-    @Override public String provider() { return "OPENAI"; }
+    @Override public String provider() { return "GEMINI"; }
     @Override public String model() { return properties.model(); }
-    private static String nullToEmpty(String value) { return value == null ? "" : value; }
 }

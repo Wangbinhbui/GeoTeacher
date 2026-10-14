@@ -64,9 +64,10 @@
 - `CONFIRMED` Giáo viên có thể tải một đề mẫu; AI chỉ mô phỏng form/bố cục/phong cách, không sao chép câu hỏi và không coi đề mẫu là nguồn kiến thức.
 - `CONFIRMED` AI chỉ đề xuất draft; giáo viên phải xem, sửa và duyệt trước khi đưa vào ngân hàng câu hỏi hoặc finalize đề.
 - `CONFIRMED` Nội dung sinh từ tài liệu phải có liên kết nguồn đủ để giáo viên kiểm chứng; không được âm thầm dùng kiến thức ngoài nguồn khi chế độ “chỉ theo giáo trình” được chọn.
-- `OPEN` Nhà cung cấp/model, chính sách gửi dữ liệu/retention, preset ma trận cho từng thời lượng và định dạng tài liệu đầu tiên.
+- `CONFIRMED` Nhà cung cấp hiện tại là Gemini API qua adapter trung lập; model mặc định có thể đổi bằng biến môi trường.
+- `OPEN` Chính sách gửi dữ liệu/retention, preset ma trận cho từng thời lượng và định dạng tài liệu đầu tiên.
 
-> Hiện trạng triển khai 2026-10-14: đã có ingestion PDF/DOCX, phân loại giáo trình/đề mẫu, chọn nguồn, adapter OpenAI Responses API, structured draft có citation và màn hình review. AI mặc định tắt; chỉ gửi các đoạn đã chọn sau consent từng lần. Chưa hỗ trợ OCR hoặc đưa draft vào đề finalized.
+> Hiện trạng triển khai 2026-10-14: đã có ingestion PDF/DOCX, phân loại giáo trình/đề mẫu, chọn nguồn, adapter Gemini Interactions API, structured draft có citation và màn hình review. AI mặc định tắt; chỉ gửi các đoạn đã chọn sau consent từng lần. Chưa hỗ trợ OCR hoặc đưa draft vào đề finalized.
 
 ## 3. Yêu cầu phi chức năng
 

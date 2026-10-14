@@ -19,7 +19,7 @@ Source hiện tại cung cấp:
 - Docker Compose cho PostgreSQL, backend và frontend.
 
 Các loại câu hỏi còn lại, luồng đề finalized và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Preset ma trận chi tiết, chính sách retention chính thức và OCR cho PDF scan vẫn chưa chốt/triển khai.
-AI mặc định tắt. Để dùng adapter OpenAI hiện tại, đặt `AI_ENABLED=true`, `OPENAI_API_KEY` và tùy chọn `OPENAI_MODEL` trong `.env`, rồi chạy lại `docker compose up -d --build backend`. Mỗi lần tạo đề vẫn phải xác nhận gửi các đoạn đã chọn ra provider; draft không tự finalize.
+AI mặc định tắt. Để dùng adapter Gemini, đặt `AI_ENABLED=true`, `GEMINI_API_KEY` và tùy chọn `GEMINI_MODEL` trong `.env`, rồi chạy lại `docker compose up -d --build backend`. Mỗi lần tạo đề vẫn phải xác nhận gửi các đoạn đã chọn sang Gemini; draft không tự finalize. Không commit `.env` hoặc khóa API lên GitHub.
 
 ## Chạy bằng Docker Compose
 

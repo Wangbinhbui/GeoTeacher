@@ -19,6 +19,7 @@
 | D-026 | CONFIRMED (2026-10-13) | Một học sinh có thể thuộc nhiều lớp trong cùng năm học, nhưng không được ghi danh trùng cùng một lớp. | Hỗ trợ lớp chính, lớp bồi dưỡng/chuyên đề mà không nhân bản hồ sơ học sinh. |
 | D-027 | CONFIRMED (2026-10-13) | Import học sinh/ghi danh có preview và commit all-or-nothing. | Không để roster ở trạng thái nửa thành công; partial mode chỉ xem xét ở giai đoạn sau nếu có nhu cầu. |
 | D-028 | CONFIRMED (2026-10-14) | AI hỗ trợ năm mục đích đề: 15 phút, giữa kỳ, cuối kỳ, tổng hợp năm, tốt nghiệp THPT; đề mẫu chỉ là khuôn form và kiến thức lấy từ giáo trình đã chọn. | Giữ nguồn kiến thức và khuôn trình bày tách biệt; mọi output vẫn là draft có citation để giáo viên duyệt. |
+| D-030 | CONFIRMED (2026-10-14) | Chỉ dùng Gemini API cho adapter AI hiện tại; cấu hình bằng `GEMINI_API_KEY`, không dùng OpenAI API key. | Theo xác nhận trực tiếp của người dùng; lõi vẫn phụ thuộc `AiModelGateway` để không khóa kiến trúc vào SDK của provider. |
 
 ## 2. Đề xuất kiến trúc cần duyệt
 
@@ -37,7 +38,7 @@
 | D-020 | PROPOSED | Foundation hiện dùng Spring Boot 4.1.1 và React 19/Vite 8. | Các bản stable hiện tại khi khởi tạo; giữ Java source/target 21. Có thể điều chỉnh sớm nếu môi trường triển khai yêu cầu line khác. |
 | D-023 | PROPOSED | Tài liệu được parse/chia đoạn, lập chỉ mục và truy xuất theo từng yêu cầu tạo đề (RAG); mỗi câu AI sinh lưu liên kết đoạn nguồn. | Giảm bịa kiến thức, hỗ trợ giáo viên kiểm chứng và không đưa toàn bộ tài liệu vào mọi prompt. |
 | D-024 | PROPOSED | AI tạo `exam_draft`/question draft qua application service; đầu ra phải qua schema validation và các business validator hiện có. | Không cho model ghi trực tiếp database hoặc bỏ qua quy tắc tổng điểm, loại câu hỏi và snapshot. |
-| D-029 | PROPOSED | Adapter đầu tiên dùng OpenAI Responses API với Structured Outputs và `store=false`; lõi phụ thuộc `AiModelGateway`, không phụ thuộc trực tiếp provider. | Có đường chạy thật nhưng vẫn thay provider được; AI mặc định tắt và cần consent từng request. |
+| D-029 | SUPERSEDED (2026-10-14, bởi D-030) | Đề xuất adapter OpenAI Responses API với Structured Outputs và `store=false`. | Không còn áp dụng sau khi người dùng xác nhận chỉ dùng Gemini API. |
 
 ## 3. Câu hỏi mở ưu tiên
 
@@ -61,7 +62,7 @@
 | O-009 | OPEN | Phạm vi unique mã đề và nguồn sinh mã? | Unique trong exam version; hệ thống gợi ý, giáo viên được sửa trước publish. |
 | O-010 | OPEN | Có sinh thêm variant sau khi version đã dùng chấm? | Không; tạo revision/new session policy để giảm rủi ro. |
 | O-011 | OPEN | PDFBox hay OpenPDF? | Làm spike với font tiếng Việt, bảng/ảnh trước khi chọn. |
-| O-016 | OPEN | Dùng nhà cung cấp/model AI nào, chạy cloud hay local? | Bắt đầu sau một adapter trung lập; đánh giá chất lượng tiếng Việt, chi phí, tốc độ và điều khoản dữ liệu trước khi chọn. |
+| O-016 | CONFIRMED (2026-10-14) | Dùng nhà cung cấp/model AI nào, chạy cloud hay local? | Dùng Gemini API qua adapter trung lập; model mặc định có thể đổi bằng biến môi trường. |
 | O-017 | OPEN | Tài liệu tải lên được gửi/lưu tại dịch vụ AI trong bao lâu? | Mặc định không cho phép dùng để huấn luyện; cấu hình retention tối thiểu và cảnh báo rõ trước khi gửi ra ngoài. |
 | O-018 | OPEN | Cấu hình mặc định cho đề 15/45/60 phút gồm số câu, loại câu, ma trận và thang điểm nào? | Dùng preset có thể chỉnh; giáo viên luôn xem ma trận và duyệt draft trước finalize. |
 | O-019 | OPEN | Định dạng tài liệu AI hỗ trợ ở lát cắt đầu tiên? | Ưu tiên PDF/DOCX có text; OCR cho tài liệu scan để phase sau và báo rõ trang không đọc được. |

@@ -151,7 +151,7 @@ Giữ resource-oriented API và tách command có state transition:
 - `GET /api/v1/ai/exam-drafts/status` — trạng thái provider/model; không trả API key.
 - `POST /api/v1/ai/exam-drafts/generate` — chọn mục đích, 15/45/60 phút, giáo trình, đề mẫu và consent; service lấy đoạn có scope, gọi `AiModelGateway`, validate rồi mới lưu.
 - `GET /api/v1/ai/exam-drafts` — danh sách draft đầy đủ cho giáo viên review; không phải endpoint đề finalized.
-- Adapter OpenAI dùng Responses API Structured Outputs, `store=false`; không upload binary và không gửi dữ liệu học sinh. Provider khác có thể thay qua interface.
+- Adapter Gemini dùng Interactions API với structured output và `store=false`; không upload binary và không gửi dữ liệu học sinh. Provider khác vẫn có thể thay qua interface.
 
 ### Exam
 

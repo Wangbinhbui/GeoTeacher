@@ -43,9 +43,9 @@ management:
 geoteacher:
   ai:
     enabled: ${AI_ENABLED:false}
-    api-key: ${OPENAI_API_KEY:}
-    model: ${OPENAI_MODEL:gpt-6-astra}
-    base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+    api-key: ${GEMINI_API_KEY:}
+    model: ${GEMINI_MODEL:gemini-3.8-flash}
+    base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com}
   file-storage:
     root: ${FILE_STORAGE_ROOT:./data/files}
   bootstrap-admin:

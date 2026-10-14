@@ -66,7 +66,7 @@ export function AiExamPage({ session }: { session: Session }) {
 
         <Card className="border-sky-200 bg-sky-50/70 p-5"><div className="flex gap-3"><ShieldCheck className="mt-0.5 size-5 shrink-0 text-sky-700" /><div><p className="font-semibold text-sky-950">Xác nhận xử lý bên ngoài</p><p className="mt-1 text-xs leading-5 text-sky-900/70">{statusQuery.data?.privacyNotice}</p></div></div><label className="mt-4 flex gap-3 text-sm text-sky-950"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>Tôi đồng ý gửi các đoạn giáo trình/đề mẫu đã chọn tới {statusQuery.data?.provider ?? 'dịch vụ AI'} cho lần tạo đề này.</span></label></Card>
 
-        {!statusQuery.data?.configured && <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-800">AI chưa được cấu hình. Thêm <code>OPENAI_API_KEY</code> và đặt <code>AI_ENABLED=true</code> trong <code>.env</code>, rồi khởi động lại backend.</p>}
+        {!statusQuery.data?.configured && <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-800">AI chưa được cấu hình. Thêm <code>GEMINI_API_KEY</code> và đặt <code>AI_ENABLED=true</code> trong <code>.env</code>, rồi khởi động lại backend.</p>}
         {generation.error && <p className="rounded-xl bg-red-50 p-4 text-sm text-red-700">{errorMessage(generation.error)}</p>}
         <Button className="w-full" disabled={!statusQuery.data?.configured || !consent || !title.trim() || knowledgeIds.length === 0 || generation.isPending} onClick={() => generation.mutate()}>{generation.isPending ? <LoaderCircle className="size-4 animate-spin" /> : <Sparkles className="size-4" />} {generation.isPending ? 'AI đang tạo và kiểm tra đề…' : 'Tạo bản nháp đề'}</Button>
       </section>

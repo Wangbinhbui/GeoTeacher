@@ -49,12 +49,12 @@ public class AiExamService {
 
     public AiStatusResponse status() {
         return new AiStatusResponse(modelGateway.configured(), modelGateway.provider(), modelGateway.model(),
-                "Chỉ các đoạn được chọn được gửi khi bạn xác nhận; không gửi hồ sơ học sinh. Request dùng store=false, nhưng provider có thể giữ abuse-monitoring logs tối đa 30 ngày theo chính sách hiện hành.");
+                "Chỉ các đoạn được chọn được gửi khi bạn xác nhận; không gửi hồ sơ học sinh. Request Gemini dùng store=false, nhưng Google có thể giữ dữ liệu giám sát lạm dụng tối đa 55 ngày theo chính sách hiện hành.");
     }
 
     public AiExamDraftResponse generate(GenerateAiExamRequest request) {
         if (!modelGateway.configured()) {
-            throw invalid("AI_NOT_CONFIGURED", "Chưa cấu hình OPENAI_API_KEY hoặc AI_ENABLED cho backend.");
+            throw invalid("AI_NOT_CONFIGURED", "Chưa cấu hình GEMINI_API_KEY hoặc AI_ENABLED cho backend.");
         }
         if (!ALLOWED_DURATIONS.contains(request.durationMinutes())) {
             throw invalid("AI_DURATION_INVALID", "Thời lượng phải là 15, 45 hoặc 60 phút.");

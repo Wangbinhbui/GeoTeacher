@@ -62,8 +62,8 @@
 - Nền tài liệu nguồn đã có upload PDF/DOCX tối đa 20 MB, nhận diện nội dung thật, checksum chống trùng, lưu binary qua `FileStorage` local, trích text/chia đoạn và nhãn nguồn trang/đoạn để giáo viên kiểm tra. PDF scan chưa có text được báo cần OCR.
 - Màn hình **Giáo án & tài liệu** cho phép tải lên, xem các đoạn đã đọc và lưu trữ metadata; file vật lý được giữ lại theo chính sách an toàn hiện tại.
 - Bước code kế tiếp: mở rộng question bank với taxonomy/file và các loại `TRUE_FALSE`, `SHORT_ANSWER`, `ESSAY` sau khi chốt quy tắc chấm liên quan.
-- Provider mặc định vẫn cần API key, retention/quyền riêng tư và preset ma trận chi tiết còn `OPEN`; adapter đầu tiên không làm thay đổi trạng thái các quyết định này.
-- Lát cắt AI đầu tiên đã có adapter OpenAI Responses API cấu hình qua môi trường, chọn giáo trình/đề mẫu, consent từng lần, structured output, validator tổng điểm/đáp án/citation và lưu draft để duyệt. Mặc định AI tắt cho tới khi có API key; chưa có thao tác đưa draft vào question bank/finalize đề.
+- Gemini vẫn cần API key; retention/quyền riêng tư và preset ma trận chi tiết còn `OPEN`.
+- Lát cắt AI đầu tiên đã có adapter Gemini Interactions API cấu hình qua môi trường, chọn giáo trình/đề mẫu, consent từng lần, structured output, validator tổng điểm/đáp án/citation và lưu draft để duyệt. Mặc định AI tắt cho tới khi có API key; chưa có thao tác đưa draft vào question bank/finalize đề.
 
 ## 6. Tiêu chí thành công MVP
 
