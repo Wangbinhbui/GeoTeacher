@@ -19,7 +19,9 @@
 ## 2.1. Phạm vi AI đã xác nhận cho giai đoạn mở rộng
 
 - Tạo bản nháp đề kiểm tra theo preset thời lượng 15, 45 hoặc 60 phút.
+- Mục đích đề gồm kiểm tra 15 phút, giữa kỳ, cuối kỳ, tổng hợp cả năm và ôn/thi tốt nghiệp THPT; mục đích và thời lượng được chọn độc lập.
 - Đọc tài liệu/giáo trình do giáo viên tải lên và dùng nội dung truy xuất được làm nguồn tạo câu hỏi/đề.
+- Cho phép tải đề mẫu để AI bám bố cục/phong cách nhưng không dùng đề mẫu thay cho nguồn kiến thức.
 - Mỗi nội dung AI đề xuất phải cho phép truy vết nguồn và luôn qua bước giáo viên duyệt trước khi đưa vào ngân hàng hoặc finalize đề.
 - Nhà cung cấp AI, retention/quyền riêng tư, preset ma trận chi tiết và OCR tài liệu scan vẫn là `OPEN`.
 
@@ -60,7 +62,8 @@
 - Nền tài liệu nguồn đã có upload PDF/DOCX tối đa 20 MB, nhận diện nội dung thật, checksum chống trùng, lưu binary qua `FileStorage` local, trích text/chia đoạn và nhãn nguồn trang/đoạn để giáo viên kiểm tra. PDF scan chưa có text được báo cần OCR.
 - Màn hình **Giáo án & tài liệu** cho phép tải lên, xem các đoạn đã đọc và lưu trữ metadata; file vật lý được giữ lại theo chính sách an toàn hiện tại.
 - Bước code kế tiếp: mở rộng question bank với taxonomy/file và các loại `TRUE_FALSE`, `SHORT_ANSWER`, `ESSAY` sau khi chốt quy tắc chấm liên quan.
-- Chưa gọi model AI: provider, retention/quyền riêng tư và preset ma trận chi tiết vẫn `OPEN`; lát cắt tiếp theo của phase AI là retrieval có scope và draft có citation.
+- Provider mặc định vẫn cần API key, retention/quyền riêng tư và preset ma trận chi tiết còn `OPEN`; adapter đầu tiên không làm thay đổi trạng thái các quyết định này.
+- Lát cắt AI đầu tiên đã có adapter OpenAI Responses API cấu hình qua môi trường, chọn giáo trình/đề mẫu, consent từng lần, structured output, validator tổng điểm/đáp án/citation và lưu draft để duyệt. Mặc định AI tắt cho tới khi có API key; chưa có thao tác đưa draft vào question bank/finalize đề.
 
 ## 6. Tiêu chí thành công MVP
 

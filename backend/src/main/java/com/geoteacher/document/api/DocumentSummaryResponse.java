@@ -1,6 +1,7 @@
 package com.geoteacher.document.api;
 
 import com.geoteacher.document.domain.DocumentStatus;
+import com.geoteacher.document.domain.DocumentKind;
 import com.geoteacher.document.domain.SourceDocument;
 
 import java.util.UUID;
@@ -9,6 +10,7 @@ public record DocumentSummaryResponse(
         UUID id,
         String title,
         Integer gradeLevel,
+        DocumentKind documentKind,
         DocumentStatus status,
         String originalName,
         String mediaType,
@@ -21,7 +23,7 @@ public record DocumentSummaryResponse(
     public static DocumentSummaryResponse from(SourceDocument document) {
         var file = document.getFileAsset();
         return new DocumentSummaryResponse(
-                document.getId(), document.getTitle(), document.getGradeLevel(), document.getStatus(),
+                document.getId(), document.getTitle(), document.getGradeLevel(), document.getDocumentKind(), document.getStatus(),
                 file.getOriginalName(), file.getMediaType(), file.getSizeBytes(), file.getSha256(),
                 document.getExtractedCharCount(), document.getChunkCount(), document.getVersion()
         );

@@ -59,12 +59,14 @@
 ### FR-AI — Tạo đề bám tài liệu
 
 - `CONFIRMED` Giáo viên có thể yêu cầu AI tạo bản nháp đề theo thời lượng 15, 45 hoặc 60 phút.
+- `CONFIRMED` Mục đích đề gồm kiểm tra 15 phút, giữa kỳ, cuối kỳ, tổng hợp cả năm và ôn/thi tốt nghiệp THPT; giáo viên chọn riêng thời lượng 15/45/60 phút.
 - `CONFIRMED` Giáo viên có thể tải tài liệu/giáo trình để AI dùng làm nguồn kiến thức khi tạo câu hỏi và đề.
+- `CONFIRMED` Giáo viên có thể tải một đề mẫu; AI chỉ mô phỏng form/bố cục/phong cách, không sao chép câu hỏi và không coi đề mẫu là nguồn kiến thức.
 - `CONFIRMED` AI chỉ đề xuất draft; giáo viên phải xem, sửa và duyệt trước khi đưa vào ngân hàng câu hỏi hoặc finalize đề.
 - `CONFIRMED` Nội dung sinh từ tài liệu phải có liên kết nguồn đủ để giáo viên kiểm chứng; không được âm thầm dùng kiến thức ngoài nguồn khi chế độ “chỉ theo giáo trình” được chọn.
 - `OPEN` Nhà cung cấp/model, chính sách gửi dữ liệu/retention, preset ma trận cho từng thời lượng và định dạng tài liệu đầu tiên.
 
-> Hiện trạng triển khai 2026-10-14: đã có ingestion local cho PDF/DOCX có text, chia đoạn và nhãn nguồn. Chưa gửi tài liệu ra dịch vụ AI, chưa tạo câu hỏi tự động và chưa hỗ trợ OCR.
+> Hiện trạng triển khai 2026-10-14: đã có ingestion PDF/DOCX, phân loại giáo trình/đề mẫu, chọn nguồn, adapter OpenAI Responses API, structured draft có citation và màn hình review. AI mặc định tắt; chỉ gửi các đoạn đã chọn sau consent từng lần. Chưa hỗ trợ OCR hoặc đưa draft vào đề finalized.
 
 ## 3. Yêu cầu phi chức năng
 

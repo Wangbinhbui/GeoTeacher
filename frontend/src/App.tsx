@@ -7,6 +7,7 @@ import { DashboardPage } from './features/dashboard/DashboardPage'
 import { StudentPage } from './features/student/StudentPage'
 import { QuestionBankPage } from './features/question/QuestionBankPage'
 import { DocumentPage } from './features/document/DocumentPage'
+import { AiExamPage } from './features/ai-exam/AiExamPage'
 import { getSession, type Session } from './lib/api'
 import { sessionQueryKey } from './lib/auth-queries'
 
@@ -84,6 +85,10 @@ function App() {
             <Navigate to="/login" replace />
           )
         }
+      />
+      <Route
+        path="/ai-exams"
+        element={session.authenticated ? <AiExamPage session={session} /> : <Navigate to="/login" replace />}
       />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -153,10 +153,10 @@
 
 1. Chốt O-016–O-019 và đánh giá quyền riêng tư/chi phí/chất lượng tiếng Việt. **Đang mở; không chặn ingestion local không gọi AI.**
 2. [x] Xây `document` + `file` ingestion: upload an toàn PDF/DOCX có text, parse, chia đoạn, checksum, trạng thái và báo tài liệu không có text/OCR.
-3. Xây retrieval có scope theo tài liệu/lớp/khối và trả citation tới đoạn/trang nguồn.
-4. Xây preset 15/45/60 phút thành cấu hình có thể chỉnh, ánh xạ sang ma trận đề.
-5. Model chỉ trả structured draft; backend validate loại câu, đáp án, rubric, điểm và tổng thời lượng trước khi lưu.
-6. UI review hiển thị nguồn, cảnh báo phần không có căn cứ, cho sửa/chấp nhận từng câu; chỉ giáo viên mới finalize.
+3. [x] Retrieval scope ban đầu theo tối đa 8 giáo trình, tối đa 24 đoạn và citation bằng chunk ID; semantic/vector ranking để sau.
+4. [x] Chọn mục đích đề và thời lượng 15/45/60 phút; ma trận chi tiết theo từng preset vẫn `OPEN` và có ô yêu cầu tùy chỉnh.
+5. [x] Adapter model trả structured draft; backend validate loại câu, đáp án, citation và tổng điểm 10 trước khi lưu.
+6. [ ] UI review đã hiển thị nguồn và đáp án; chỉnh/chấp nhận từng câu và chuyển sang M04 chưa triển khai.
 7. Eval bằng bộ giáo trình đại diện: groundedness, độ phủ ma trận, độ khó, tiếng Việt, duplicate và rò rỉ đáp án.
 
 ## Nên bắt đầu code từ đâu?

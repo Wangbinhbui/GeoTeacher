@@ -124,6 +124,12 @@ erDiagram
 - `source_documents` liên kết một `file_asset`, lưu tiêu đề, khối lớp tùy chọn, trạng thái, số ký tự/đoạn và optimistic version.
 - `document_chunks` lưu thứ tự đoạn, số trang nullable, nhãn nguồn, nội dung và số ký tự. Đây là nền citation/retrieval; vector embedding và scope retrieval chưa được chọn.
 - Migration V7 đã triển khai hai bảng này cho PDF/DOCX có text. Archive hiện giữ binary; retention/xóa vật lý còn `OPEN` theo O-017.
+- Migration V8 thêm `document_kind = KNOWLEDGE | SAMPLE_EXAM` để tách nguồn kiến thức khỏi khuôn đề.
+
+#### `ai_exam_drafts` và `ai_exam_draft_sources`
+
+- V8 lưu draft AI gồm mục đích đề, thời lượng, khối, provider/model, structured content JSONB và thời điểm tạo.
+- Bảng nguồn liên kết từng draft với giáo trình (`KNOWLEDGE`) và đề mẫu (`SAMPLE`); draft không phải exam finalized và chưa được dùng trực tiếp để chấm.
 
 ### 4.4. Question bank
 

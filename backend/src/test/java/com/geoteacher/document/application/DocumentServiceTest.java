@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.geoteacher.document.infrastructure.SourceDocumentRepository;
+import com.geoteacher.document.domain.DocumentKind;
 import com.geoteacher.file.application.FileStorage;
 import com.geoteacher.file.domain.FileAssetStatus;
 import com.geoteacher.file.infrastructure.FileAssetRepository;
@@ -41,7 +42,7 @@ class DocumentServiceTest {
         var file = new MockMultipartFile(
                 "file", "giao-trinh.pdf", "application/pdf", "not a pdf".getBytes(StandardCharsets.UTF_8));
 
-        assertThatThrownBy(() -> service.upload("Địa lý 10", 10, file))
+        assertThatThrownBy(() -> service.upload("Địa lý 10", 10, DocumentKind.KNOWLEDGE, file))
                 .isInstanceOf(DocumentException.class)
                 .extracting(exception -> ((DocumentException) exception).getCode())
                 .isEqualTo("DOCUMENT_TYPE_UNSUPPORTED");
@@ -56,7 +57,7 @@ class DocumentServiceTest {
         when(fileAssetRepository.existsBySha256AndStatus(anyString(), eq(FileAssetStatus.STORED)))
                 .thenReturn(true);
 
-        assertThatThrownBy(() -> service.upload(null, null, file))
+        assertThatThrownBy(() -> service.upload(null, null, DocumentKind.KNOWLEDGE, file))
                 .isInstanceOf(DocumentException.class)
                 .extracting(exception -> ((DocumentException) exception).getCode())
                 .isEqualTo("DOCUMENT_DUPLICATE");

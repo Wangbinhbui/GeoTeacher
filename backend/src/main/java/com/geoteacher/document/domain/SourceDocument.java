@@ -31,6 +31,8 @@ public class SourceDocument {
     private FileAsset fileAsset;
     @Column(nullable = false, length = 255) private String title;
     @Column(name = "grade_level") private Integer gradeLevel;
+    @Enumerated(EnumType.STRING) @Column(name = "document_kind", nullable = false, length = 30)
+    private DocumentKind documentKind;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20) private DocumentStatus status;
     @Column(name = "extracted_char_count", nullable = false) private int extractedCharCount;
     @Column(name = "chunk_count", nullable = false) private int chunkCount;
@@ -45,7 +47,8 @@ public class SourceDocument {
     }
 
     public static SourceDocument create(
-            FileAsset fileAsset, String title, Integer gradeLevel, List<ChunkInput> inputs, Instant now
+            FileAsset fileAsset, String title, Integer gradeLevel, DocumentKind documentKind,
+            List<ChunkInput> inputs, Instant now
     ) {
         if (gradeLevel != null && (gradeLevel < 1 || gradeLevel > 12)) {
             throw new IllegalArgumentException("Khối lớp phải từ 1 đến 12.");
@@ -56,6 +59,7 @@ public class SourceDocument {
         document.fileAsset = fileAsset;
         document.title = title.trim();
         document.gradeLevel = gradeLevel;
+        document.documentKind = documentKind;
         document.status = DocumentStatus.READY;
         document.createdAt = now;
         document.updatedAt = now;
@@ -78,6 +82,7 @@ public class SourceDocument {
     public FileAsset getFileAsset() { return fileAsset; }
     public String getTitle() { return title; }
     public Integer getGradeLevel() { return gradeLevel; }
+    public DocumentKind getDocumentKind() { return documentKind; }
     public DocumentStatus getStatus() { return status; }
     public int getExtractedCharCount() { return extractedCharCount; }
     public int getChunkCount() { return chunkCount; }

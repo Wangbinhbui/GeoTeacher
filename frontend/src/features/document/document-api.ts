@@ -1,11 +1,13 @@
 import { apiGet, apiMutate, apiUpload } from '../../lib/api'
 
 export type DocumentStatus = 'READY' | 'ARCHIVED'
+export type DocumentKind = 'KNOWLEDGE' | 'SAMPLE_EXAM'
 
 export type SourceDocument = {
   id: string
   title: string
   gradeLevel?: number
+  documentKind: DocumentKind
   status: DocumentStatus
   originalName: string
   mediaType: string
@@ -40,12 +42,13 @@ export function getDocument(id: string) {
   return apiGet<DocumentDetail>(`/api/v1/documents/${id}`)
 }
 
-export function uploadDocument(file: File, title: string, gradeLevel?: number) {
+export function uploadDocument(file: File, title: string, gradeLevel: number | undefined, documentKind: DocumentKind) {
   const form = new FormData()
   form.append('file', file)
   const query = new URLSearchParams()
   if (title.trim()) query.set('title', title.trim())
   if (gradeLevel) query.set('gradeLevel', String(gradeLevel))
+  query.set('documentKind', documentKind)
   return apiUpload<DocumentDetail>(`/api/v1/documents?${query.toString()}`, form)
 }
 

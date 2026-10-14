@@ -3,6 +3,7 @@ package com.geoteacher.document.application;
 import com.geoteacher.document.api.DocumentDetailResponse;
 import com.geoteacher.document.api.DocumentSummaryResponse;
 import com.geoteacher.document.domain.SourceDocument;
+import com.geoteacher.document.domain.DocumentKind;
 import com.geoteacher.document.infrastructure.SourceDocumentRepository;
 import com.geoteacher.file.application.FileStorage;
 import com.geoteacher.file.domain.FileAsset;
@@ -62,7 +63,7 @@ public class DocumentService {
     }
 
     @Transactional
-    public DocumentDetailResponse upload(String title, Integer gradeLevel, MultipartFile file) {
+    public DocumentDetailResponse upload(String title, Integer gradeLevel, DocumentKind documentKind, MultipartFile file) {
         var bytes = bytes(file);
         var mediaType = detectType(bytes);
         var originalName = safeOriginalName(file.getOriginalFilename());
@@ -92,7 +93,7 @@ public class DocumentService {
                     ))
                     .toList();
             return DocumentDetailResponse.from(documentRepository.saveAndFlush(SourceDocument.create(
-                    asset, resolvedTitle, gradeLevel, chunkInputs, now()
+                    asset, resolvedTitle, gradeLevel, documentKind, chunkInputs, now()
             )));
         } catch (RuntimeException exception) {
             if (storageKey != null) storage.deleteIfExists(storageKey);

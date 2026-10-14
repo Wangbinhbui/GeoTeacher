@@ -41,6 +41,11 @@ management:
         enabled: true
 
 geoteacher:
+  ai:
+    enabled: ${AI_ENABLED:false}
+    api-key: ${OPENAI_API_KEY:}
+    model: ${OPENAI_MODEL:gpt-6-astra}
+    base-url: ${OPENAI_BASE_URL:https://api.openai.com}
   file-storage:
     root: ${FILE_STORAGE_ROOT:./data/files}
   bootstrap-admin:

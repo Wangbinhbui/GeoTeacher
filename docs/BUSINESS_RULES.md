@@ -128,3 +128,11 @@
 - `PROPOSED` **BR-DOC-03**: PDF/DOCX không trích được chữ không được đánh dấu sẵn sàng; PDF scan báo rõ cần OCR thay vì tạo nguồn rỗng.
 - `PROPOSED` **BR-DOC-04**: Mỗi đoạn trích lưu nhãn nguồn và số trang khi định dạng cung cấp được; draft AI về sau phải liên kết tới các đoạn này.
 - `PROPOSED` **BR-DOC-05**: Lưu trữ tài liệu ở UI hiện chỉ archive metadata và giữ file vật lý để tránh mất nguồn ngoài ý muốn. Chính sách retention/xóa vật lý vẫn theo O-017.
+
+## 10. Bản nháp đề do AI tạo
+
+- `CONFIRMED` **BR-AI-01**: AI chỉ tạo draft; không tự ghi vào ngân hàng câu hỏi, finalize đề hay công bố đáp án.
+- `CONFIRMED` **BR-AI-02**: Giáo trình cung cấp kiến thức; đề mẫu chỉ cung cấp form/bố cục/phong cách và không được dùng như nguồn kiến thức.
+- `CONFIRMED` **BR-AI-03**: Mỗi câu sinh ra phải trích ít nhất một đoạn thuộc giáo trình đã chọn.
+- `PROPOSED` **BR-AI-04**: Mỗi lần gửi đoạn tài liệu ra provider cần consent rõ; không gửi hồ sơ học sinh và request dùng `store=false`.
+- `PROPOSED` **BR-AI-05**: Backend từ chối draft nếu tổng điểm khác 10, citation ngoài scope, loại câu không hỗ trợ hoặc câu single-choice không có đúng bốn lựa chọn/đáp án A–D.

@@ -146,6 +146,13 @@ Giữ resource-oriented API và tách command có state transition:
 - `POST /api/v1/documents/{id}/archive` — state transition dùng optimistic version; hiện không xóa binary.
 - Adapter local dùng volume bền vững khi chạy Compose. Object storage, vector index, model provider và retention vẫn là điểm thay thế/chính sách chưa chốt.
 
+### AI exam draft
+
+- `GET /api/v1/ai/exam-drafts/status` — trạng thái provider/model; không trả API key.
+- `POST /api/v1/ai/exam-drafts/generate` — chọn mục đích, 15/45/60 phút, giáo trình, đề mẫu và consent; service lấy đoạn có scope, gọi `AiModelGateway`, validate rồi mới lưu.
+- `GET /api/v1/ai/exam-drafts` — danh sách draft đầy đủ cho giáo viên review; không phải endpoint đề finalized.
+- Adapter OpenAI dùng Responses API Structured Outputs, `store=false`; không upload binary và không gửi dữ liệu học sinh. Provider khác có thể thay qua interface.
+
 ### Exam
 
 - `POST /api/v1/exams` — tạo catalog + draft đầu.

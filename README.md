@@ -15,9 +15,11 @@ Source hiện tại cung cấp:
 - Import học sinh Excel có file mẫu, preview từng dòng, confirm all-or-nothing và export roster theo lớp.
 - Ngân hàng câu hỏi bước đầu hỗ trợ CRUD/search/archive câu trắc nghiệm một đáp án, metadata khối/chủ đề/mức độ và không lộ đáp án ở API danh sách.
 - Khu vực **Giáo án & tài liệu** hỗ trợ tải PDF/DOCX có text tối đa 20 MB, checksum chống trùng, trích xuất/chia đoạn và hiển thị nhãn nguồn để giáo viên kiểm tra.
+- Khu vực **Đề kiểm tra** tạo draft AI theo 5 mục đích và thời lượng 15/45/60 phút, bám giáo trình được chọn, tùy chọn học form từ đề mẫu và hiển thị citation để giáo viên duyệt.
 - Docker Compose cho PostgreSQL, backend và frontend.
 
-Các loại câu hỏi còn lại, đề và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Model AI tạo đề 15/45/60 phút chưa được gọi vì provider, retention/quyền riêng tư và preset ma trận vẫn cần chốt; PDF scan cần OCR cũng chưa hỗ trợ.
+Các loại câu hỏi còn lại, luồng đề finalized và chấm điểm sẽ được phát triển theo [kế hoạch MVP](docs/IMPLEMENTATION_PLAN.md). Preset ma trận chi tiết, chính sách retention chính thức và OCR cho PDF scan vẫn chưa chốt/triển khai.
+AI mặc định tắt. Để dùng adapter OpenAI hiện tại, đặt `AI_ENABLED=true`, `OPENAI_API_KEY` và tùy chọn `OPENAI_MODEL` trong `.env`, rồi chạy lại `docker compose up -d --build backend`. Mỗi lần tạo đề vẫn phải xác nhận gửi các đoạn đã chọn ra provider; draft không tự finalize.
 
 ## Chạy bằng Docker Compose
 

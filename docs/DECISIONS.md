@@ -18,6 +18,7 @@
 | D-025 | CONFIRMED (2026-10-13) | `student_code` duy nhất trên toàn hệ thống. | Học sinh giữ một identity xuyên năm; lịch sử lớp được biểu diễn bằng enrollment. |
 | D-026 | CONFIRMED (2026-10-13) | Một học sinh có thể thuộc nhiều lớp trong cùng năm học, nhưng không được ghi danh trùng cùng một lớp. | Hỗ trợ lớp chính, lớp bồi dưỡng/chuyên đề mà không nhân bản hồ sơ học sinh. |
 | D-027 | CONFIRMED (2026-10-13) | Import học sinh/ghi danh có preview và commit all-or-nothing. | Không để roster ở trạng thái nửa thành công; partial mode chỉ xem xét ở giai đoạn sau nếu có nhu cầu. |
+| D-028 | CONFIRMED (2026-10-14) | AI hỗ trợ năm mục đích đề: 15 phút, giữa kỳ, cuối kỳ, tổng hợp năm, tốt nghiệp THPT; đề mẫu chỉ là khuôn form và kiến thức lấy từ giáo trình đã chọn. | Giữ nguồn kiến thức và khuôn trình bày tách biệt; mọi output vẫn là draft có citation để giáo viên duyệt. |
 
 ## 2. Đề xuất kiến trúc cần duyệt
 
@@ -36,6 +37,7 @@
 | D-020 | PROPOSED | Foundation hiện dùng Spring Boot 4.1.1 và React 19/Vite 8. | Các bản stable hiện tại khi khởi tạo; giữ Java source/target 21. Có thể điều chỉnh sớm nếu môi trường triển khai yêu cầu line khác. |
 | D-023 | PROPOSED | Tài liệu được parse/chia đoạn, lập chỉ mục và truy xuất theo từng yêu cầu tạo đề (RAG); mỗi câu AI sinh lưu liên kết đoạn nguồn. | Giảm bịa kiến thức, hỗ trợ giáo viên kiểm chứng và không đưa toàn bộ tài liệu vào mọi prompt. |
 | D-024 | PROPOSED | AI tạo `exam_draft`/question draft qua application service; đầu ra phải qua schema validation và các business validator hiện có. | Không cho model ghi trực tiếp database hoặc bỏ qua quy tắc tổng điểm, loại câu hỏi và snapshot. |
+| D-029 | PROPOSED | Adapter đầu tiên dùng OpenAI Responses API với Structured Outputs và `store=false`; lõi phụ thuộc `AiModelGateway`, không phụ thuộc trực tiếp provider. | Có đường chạy thật nhưng vẫn thay provider được; AI mặc định tắt và cần consent từng request. |
 
 ## 3. Câu hỏi mở ưu tiên
 

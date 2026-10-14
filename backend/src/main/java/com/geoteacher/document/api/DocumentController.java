@@ -1,6 +1,7 @@
 package com.geoteacher.document.api;
 
 import com.geoteacher.document.application.DocumentService;
+import com.geoteacher.document.domain.DocumentKind;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -48,9 +49,10 @@ public class DocumentController {
     DocumentDetailResponse upload(
             @RequestParam(required = false) @Size(max = 255) String title,
             @RequestParam(required = false) @Min(1) @Max(12) Integer gradeLevel,
+            @RequestParam(defaultValue = "KNOWLEDGE") DocumentKind documentKind,
             @RequestPart("file") MultipartFile file
     ) {
-        return service.upload(title, gradeLevel, file);
+        return service.upload(title, gradeLevel, documentKind, file);
     }
 
     @PostMapping("/{id}/archive")

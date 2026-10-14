@@ -25,6 +25,10 @@ services:
       GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD: ${GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD:?Set GEOTEACHER_BOOTSTRAP_ADMIN_PASSWORD in .env}
       GEOTEACHER_BOOTSTRAP_ADMIN_DISPLAY_NAME: ${GEOTEACHER_BOOTSTRAP_ADMIN_DISPLAY_NAME:-Giáo viên Địa lý}
       FILE_STORAGE_ROOT: /data/geoteacher/files
+      AI_ENABLED: ${AI_ENABLED:-false}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-6-astra}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com}
     volumes:
       - geoteacher_files:/data/geoteacher/files
     depends_on:

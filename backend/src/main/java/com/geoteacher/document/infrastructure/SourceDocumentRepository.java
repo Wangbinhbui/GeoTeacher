@@ -18,4 +18,8 @@ public interface SourceDocumentRepository extends JpaRepository<SourceDocument, 
     @EntityGraph(attributePaths = {"fileAsset", "chunks"})
     @Query("select document from SourceDocument document where document.id = :id")
     Optional<SourceDocument> findDetailById(@Param("id") UUID id);
+
+    @EntityGraph(attributePaths = {"fileAsset", "chunks"})
+    @Query("select distinct document from SourceDocument document where document.id in :ids")
+    List<SourceDocument> findAllDetailByIdIn(@Param("ids") List<UUID> ids);
 }

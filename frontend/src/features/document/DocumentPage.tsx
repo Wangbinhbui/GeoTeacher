@@ -12,6 +12,7 @@ import {
   getDocument,
   listDocuments,
   uploadDocument,
+  type DocumentKind,
 } from './document-api'
 
 function errorMessage(error: unknown) {
@@ -29,6 +30,7 @@ export function DocumentPage({ session }: { session: Session }) {
   const [file, setFile] = useState<File>()
   const [title, setTitle] = useState('')
   const [gradeLevel, setGradeLevel] = useState<number>()
+  const [documentKind, setDocumentKind] = useState<DocumentKind>('KNOWLEDGE')
   const [selectedId, setSelectedId] = useState<string>()
 
   const documentsQuery = useQuery({ queryKey: documentsQueryKey, queryFn: listDocuments })
@@ -40,7 +42,7 @@ export function DocumentPage({ session }: { session: Session }) {
   const uploadMutation = useMutation({
     mutationFn: () => {
       if (!file) throw new Error('Chưa chọn tài liệu.')
-      return uploadDocument(file, title, gradeLevel)
+      return uploadDocument(file, title, gradeLevel, documentKind)
     },
     onSuccess: (detail) => {
       queryClient.invalidateQueries({ queryKey: documentsQueryKey })
@@ -74,6 +76,7 @@ export function DocumentPage({ session }: { session: Session }) {
           <div className="mt-5 space-y-4">
             <label className="block text-sm font-medium">Tiêu đề<Input className="mt-2" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Để trống để dùng tên file" maxLength={255} /></label>
             <label className="block text-sm font-medium">Khối lớp<Input className="mt-2" type="number" min="1" max="12" value={gradeLevel ?? ''} onChange={(event) => setGradeLevel(event.target.value ? Number(event.target.value) : undefined)} placeholder="Không bắt buộc" /></label>
+            <label className="block text-sm font-medium">Mục đích tài liệu<select className="mt-2 h-10 w-full rounded-md border border-stone-200 bg-white px-3 text-sm" value={documentKind} onChange={(event) => setDocumentKind(event.target.value as DocumentKind)}><option value="KNOWLEDGE">Giáo trình / nguồn kiến thức</option><option value="SAMPLE_EXAM">Đề mẫu / khuôn trình bày</option></select></label>
             <label className="block text-sm font-medium">Tệp tài liệu<Input className="mt-2" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={(event) => setFile(event.target.files?.[0])} /></label>
             {file && <p className="rounded-xl bg-stone-50 p-3 text-xs text-stone-600">{file.name} · {formatBytes(file.size)}</p>}
             {uploadMutation.error && <p className="text-sm text-red-600">{errorMessage(uploadMutation.error)}</p>}
@@ -82,9 +85,9 @@ export function DocumentPage({ session }: { session: Session }) {
         </Card>
 
         <Card className="border-amber-200 bg-amber-50/70 p-5">
-          <h2 className="font-semibold text-amber-950">Bước AI kế tiếp</h2>
-          <p className="mt-2 text-sm leading-6 text-amber-900/70">Các đoạn nguồn đã sẵn sàng cho retrieval và citation. Chức năng tạo câu hỏi 15/45/60 phút chưa gọi model cho tới khi chốt provider và quyền riêng tư.</p>
-          <Button asChild variant="outline" size="sm" className="mt-4"><Link to="/questions"><BookOpenCheck className="size-4" /> Mở ngân hàng câu hỏi</Link></Button>
+          <h2 className="font-semibold text-amber-950">Tạo đề bằng AI</h2>
+          <p className="mt-2 text-sm leading-6 text-amber-900/70">Phân loại giáo trình và đề mẫu, sau đó chọn nguồn để tạo draft 15/45/60 phút có citation.</p>
+          <Button asChild variant="outline" size="sm" className="mt-4"><Link to="/ai-exams"><BookOpenCheck className="size-4" /> Mở trình tạo đề AI</Link></Button>
         </Card>
       </section>
 
@@ -94,7 +97,7 @@ export function DocumentPage({ session }: { session: Session }) {
           <div className="divide-y divide-stone-100">
             {documentsQuery.isFetching && <p className="p-5 text-sm text-stone-500">Đang tải tài liệu…</p>}
             {documentsQuery.data?.map((document) => <div key={document.id} className={`flex items-center gap-4 p-5 ${selectedId === document.id ? 'bg-sky-50' : ''}`}>
-              <button type="button" className="min-w-0 flex-1 text-left" onClick={() => setSelectedId(document.id)}><div className="flex items-center gap-2"><FileText className="size-4 shrink-0 text-sky-700" /><p className="truncate font-semibold">{document.title}</p></div><p className="mt-1 truncate text-xs text-stone-400">{document.originalName} · {formatBytes(document.sizeBytes)} · {document.chunkCount} đoạn{document.gradeLevel ? ` · khối ${document.gradeLevel}` : ''}</p></button>
+              <button type="button" className="min-w-0 flex-1 text-left" onClick={() => setSelectedId(document.id)}><div className="flex items-center gap-2"><FileText className="size-4 shrink-0 text-sky-700" /><p className="truncate font-semibold">{document.title}</p><span className="rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-semibold text-stone-500">{document.documentKind === 'KNOWLEDGE' ? 'Giáo trình' : 'Đề mẫu'}</span></div><p className="mt-1 truncate text-xs text-stone-400">{document.originalName} · {formatBytes(document.sizeBytes)} · {document.chunkCount} đoạn{document.gradeLevel ? ` · khối ${document.gradeLevel}` : ''}</p></button>
               {document.status === 'READY' && <Button variant="ghost" size="icon" aria-label="Lưu trữ tài liệu" onClick={() => window.confirm('Lưu trữ tài liệu này? File vẫn được giữ để bảo toàn nguồn.') && archiveMutation.mutate(document)}><Archive className="size-4" /></Button>}
             </div>)}
             {!documentsQuery.isFetching && !documentsQuery.data?.length && <p className="p-10 text-center text-sm text-stone-500">Chưa có tài liệu nguồn.</p>}
